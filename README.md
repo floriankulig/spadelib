@@ -29,11 +29,13 @@ Spade adopts the "own your code" principle, inspired by [shadcn/ui](https://ui.s
 ## Key Features
 
 ### 🎨 **Design Token System**
+
 - Centralized theming configuration
 - Easy adaptation to client design systems
 - Automatic component styling based on tokens
 
 ### ♿ **Accessibility-First Architecture**
+
 - WCAG 2.1 AA compliance by default
 - Automatic ARIA attributes implementation
 - Screen reader optimization
@@ -41,12 +43,14 @@ Spade adopts the "own your code" principle, inspired by [shadcn/ui](https://ui.s
 - Focus management system
 
 ### 🛠️ **Developer Experience**
+
 - CLI tooling for component installation and updates
 - Comprehensive documentation with examples
 - TypeScript support out of the box
 - Framework-agnostic core architecture
 
 ### 📦 **Atomic Design Structure**
+
 - Hierarchical component organization (Atoms → Molecules → Organisms)
 - Reusable and composable component patterns
 - Scalable architecture for complex applications
