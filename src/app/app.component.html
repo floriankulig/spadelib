@@ -1,0 +1,146 @@
+<div class="demo-container">
+  <header class="demo-header">
+    <h1>Spade UI Components - Demo</h1>
+    <p>Angular-optimized Component Library for Project Business</p>
+  </header>
+
+  <main class="demo-content">
+    <!-- Button Component Demo -->
+    <section class="demo-section">
+      <h2>Button Component</h2>
+
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h3>Variants</h3>
+          <div class="demo-row">
+            <spade-button variant="primary">Primary</spade-button>
+            <spade-button variant="secondary">Secondary</spade-button>
+            <spade-button variant="outline">Outline</spade-button>
+            <spade-button variant="ghost">Ghost</spade-button>
+            <spade-button variant="danger">Danger</spade-button>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h3>Sizes</h3>
+          <div class="demo-row">
+            <spade-button size="sm">Small</spade-button>
+            <spade-button size="md">Medium</spade-button>
+            <spade-button size="lg">Large</spade-button>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h3>States</h3>
+          <div class="demo-row">
+            <spade-button [disabled]="true">Disabled</spade-button>
+            <spade-button
+              [loading]="buttonLoading"
+              (spadeClick)="onButtonClick()"
+            >
+              Click to Load
+            </spade-button>
+            <spade-button [fullWidth]="true">Full Width</spade-button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Input Component Demo -->
+    <!-- <section class="demo-section">
+      <h2>Input Component</h2>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h3>Basic Input</h3>
+          <spade-input
+            label="Username"
+            placeholder="Enter your username"
+            [(ngModel)]="inputValue"
+            [required]="true"
+            hint="Choose a unique username"
+          ></spade-input>
+        </div>
+        
+        <div class="demo-item">
+          <h3>With Character Count</h3>
+          <spade-input
+            label="Bio"
+            placeholder="Tell us about yourself"
+            [maxLength]="100"
+            [showCharacterCount]="true"
+          ></spade-input>
+        </div>
+        
+        <div class="demo-item">
+          <h3>Error State</h3>
+          <spade-input
+            label="Email"
+            type="email"
+            placeholder="your@email.com"
+            [(ngModel)]="emailValue"
+            [error]="emailValue && !emailValue.includes('@') ? 'Please enter a valid email' : undefined"
+          ></spade-input>
+        </div>
+        
+        <div class="demo-item">
+          <h3>Sizes</h3>
+          <spade-input size="sm" placeholder="Small input"></spade-input>
+          <spade-input size="md" placeholder="Medium input"></spade-input>
+          <spade-input size="lg" placeholder="Large input"></spade-input>
+        </div>
+      </div>
+    </section>
+     -->
+    <!-- Dropdown Component Demo -->
+    <!-- <section class="demo-section">
+      <h2>Dropdown Component</h2>
+
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h3>Single Select</h3>
+          <spade-dropdown
+            label="Framework"
+            placeholder="Choose a framework"
+            [options]="dropdownOptions"
+            [(ngModel)]="singleSelectValue"
+            (spadeChange)="onDropdownChange($event)"
+          ></spade-dropdown>
+        </div>
+
+        <div class="demo-item">
+          <h3>Multi Select with Search</h3>
+          <spade-dropdown
+            label="Technologies"
+            placeholder="Select multiple"
+            [options]="dropdownOptions"
+            [multiple]="true"
+            [searchable]="true"
+            [(ngModel)]="multiSelectValues"
+          ></spade-dropdown>
+        </div>
+
+        <div class="demo-item">
+          <h3>With Validation</h3>
+          <spade-dropdown
+            label="Required Field"
+            [options]="dropdownOptions"
+            [required]="true"
+            error="This field is required"
+            hint="Please select at least one option"
+          ></spade-dropdown>
+        </div>
+
+        <div class="demo-item">
+          <h3>Disabled State</h3>
+          <spade-dropdown
+            label="Disabled Dropdown"
+            [options]="dropdownOptions"
+            [disabled]="true"
+            placeholder="This is disabled"
+          ></spade-dropdown>
+        </div>
+      </div>
+    </section> -->
+  </main>
+</div>
