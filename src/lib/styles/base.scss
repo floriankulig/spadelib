@@ -1,5 +1,5 @@
 // Base styles and utilities
-@import "../tokens/design-tokens.scss";
+@use "../tokens/design-tokens.scss" as *;
 
 // Reset and base styles
 * {

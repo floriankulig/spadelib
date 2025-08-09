@@ -21,7 +21,7 @@ import { SpadeButtonComponent } from '../lib/components/button/button';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class App {
   // Button demo states
   buttonLoading = false;
 

@@ -1,4 +1,4 @@
-@import "../lib/tokens/design-tokens.scss";
+@use "../lib/tokens/design-tokens.scss" as *;
 
 .demo-container {
   min-height: 100vh;
