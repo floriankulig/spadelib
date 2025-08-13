@@ -79,40 +79,6 @@
     color: var(--spade-color-neutral-400);
   }
 
-  &__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spade-spacing-1);
-  }
-
-  &__chip {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spade-spacing-1);
-    padding: var(--spade-spacing-1) var(--spade-spacing-2);
-    background-color: var(--spade-color-primary-100);
-    color: var(--spade-color-primary-800);
-    border-radius: var(--spade-radius-full);
-    font-size: var(--spade-font-size-sm);
-
-    &-remove {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 16px;
-      height: 16px;
-      padding: 0;
-      background: transparent;
-      border: none;
-      border-radius: var(--spade-radius-full);
-      cursor: pointer;
-
-      &:hover {
-        background-color: var(--spade-color-primary-200);
-      }
-    }
-  }
-
   &__arrow {
     width: 20px;
     height: 20px;
