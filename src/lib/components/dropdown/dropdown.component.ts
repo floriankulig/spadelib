@@ -52,6 +52,7 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   @Output() spadeSearch = new EventEmitter<string>();
 
   @ViewChild('trigger') triggerElement!: ElementRef<HTMLButtonElement>;
+  @ViewChild('dropdownPanel') dropdownPanelElement!: ElementRef<HTMLDivElement>;
   @ViewChild('searchInput') searchInputElement?: ElementRef<HTMLInputElement>;
 
   isOpen = false;
@@ -93,7 +94,12 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.triggerElement.nativeElement.contains(event.target as Node)) {
+    if (
+      !(
+        this.triggerElement.nativeElement.contains(event.target as Node) ||
+        this.dropdownPanelElement.nativeElement.contains(event.target as Node)
+      )
+    ) {
       this.close();
     }
   }
