@@ -1,0 +1,60 @@
+<div class="spade-input" [class.spade-input--focused]="focused">
+  <label *ngIf="label" [for]="inputId" class="spade-input__label">
+    {{ label }}
+    <span *ngIf="required" class="spade-input__required" aria-label="required"
+      >*</span
+    >
+  </label>
+
+  <div class="spade-input__wrapper">
+    <input
+      #inputElement
+      [id]="inputId"
+      [type]="type"
+      [class]="inputClasses"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [required]="required"
+      [maxlength]="maxLength"
+      [attr.aria-label]="ariaLabel || label"
+      [attr.aria-describedby]="ariaDescribedByIds"
+      [attr.aria-invalid]="error ? 'true' : 'false'"
+      [attr.aria-required]="required ? 'true' : 'false'"
+      [attr.autocomplete]="autocomplete"
+      [(ngModel)]="value"
+      (input)="onInputChange($any($event.target).value)"
+      (focus)="onInputFocus($event)"
+      (blur)="onInputBlur($event)"
+    />
+
+    <span
+      *ngIf="showCharacterCount"
+      [id]="inputId + '-count'"
+      class="spade-input__char-count"
+      [class]="characterCountClass"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ characterCount }}
+    </span>
+  </div>
+
+  <span
+    *ngIf="hint && !error"
+    [id]="inputId + '-hint'"
+    class="spade-input__hint"
+  >
+    {{ hint }}
+  </span>
+
+  <span
+    *ngIf="error"
+    [id]="inputId + '-error'"
+    class="spade-input__error"
+    role="alert"
+    aria-live="polite"
+  >
+    {{ error }}
+  </span>
+</div>
