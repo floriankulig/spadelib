@@ -18,8 +18,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./button.component.scss'],
 })
 export class SpadeButtonComponent implements OnInit {
-  @Input() variant: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' =
-    'primary';
+  @Input() variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() disabled = false;
   @Input() loading = false;

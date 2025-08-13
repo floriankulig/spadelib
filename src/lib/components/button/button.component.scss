@@ -68,20 +68,6 @@
     }
   }
 
-  &--outline {
-    background-color: transparent;
-    color: var(--spade-color-primary-600);
-    border-color: var(--spade-color-primary-600);
-
-    &:hover:not(:disabled) {
-      background-color: var(--spade-color-primary-50);
-    }
-
-    &:active:not(:disabled) {
-      background-color: var(--spade-color-primary-100);
-    }
-  }
-
   &--ghost {
     background-color: transparent;
     color: var(--spade-color-primary-600);
