@@ -14,8 +14,8 @@ import { CommonModule } from '@angular/common';
   selector: 'spade-button',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './button.html',
-  styleUrls: ['./button.scss'],
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss'],
 })
 export class SpadeButtonComponent implements OnInit {
   @Input() variant: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' =
