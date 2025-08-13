@@ -29,27 +29,9 @@
     (click)="toggle()"
   >
     <div class="spade-dropdown__value">
-      @if (multiple && selectedValues.length > 0) {
-      <div class="spade-dropdown__chips">
-        @for (value of selectedValues; track value) {
-        <span class="spade-dropdown__chip">
-          {{ getOptionLabel(value) }}
-          <button
-            type="button"
-            class="spade-dropdown__chip-remove"
-            [attr.aria-label]="'Remove ' + getOptionLabel(value)"
-            (click)="removeOption(value, $event)"
-          >
-            ×
-          </button>
-        </span>
-        }
-      </div>
-      } @if (!multiple || selectedValues.length === 0) {
       <span [class.spade-dropdown__placeholder]="!displayValue">
         {{ displayValue || placeholder }}
       </span>
-      }
     </div>
 
     <svg class="spade-dropdown__arrow" viewBox="0 0 20 20" fill="currentColor">
@@ -71,20 +53,6 @@
     [attr.aria-multiselectable]="multiple"
     [attr.aria-label]="ariaLabel || label"
   >
-    @if (searchable) {
-    <div class="spade-dropdown__search">
-      <input
-        #searchInput
-        type="text"
-        class="spade-dropdown__search-input"
-        placeholder="Search..."
-        [(ngModel)]="searchTerm"
-        (input)="onSearchChange($any($event.target).value)"
-        aria-label="Search options"
-      />
-    </div>
-    }
-
     <div class="spade-dropdown__options">
       @for (option of filteredOptions; track option; let i = $index) {
       <button

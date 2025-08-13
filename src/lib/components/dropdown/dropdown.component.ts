@@ -10,17 +10,13 @@ import {
   HostListener,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  FormsModule,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DropdownOption } from './dropdown';
 
 @Component({
   selector: 'spade-dropdown',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
   providers: [
@@ -36,7 +32,6 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   @Input() label?: string;
   @Input() placeholder = 'Select an option';
   @Input() multiple = false;
-  @Input() searchable = false;
   @Input() disabled = false;
   @Input() required = false;
   @Input() error?: string;
@@ -49,14 +44,11 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   @Output() change = new EventEmitter<any>();
   @Output() opened = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();
-  @Output() search = new EventEmitter<string>();
 
   @ViewChild('trigger') triggerElement!: ElementRef<HTMLButtonElement>;
   @ViewChild('dropdownPanel') dropdownPanelElement!: ElementRef<HTMLDivElement>;
-  @ViewChild('searchInput') searchInputElement?: ElementRef<HTMLInputElement>;
 
   isOpen = false;
-  searchTerm = '';
   selectedValues: any[] = [];
   focusedIndex = -1;
 
@@ -161,20 +153,12 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
     this.isOpen = true;
     this.focusedIndex = -1;
     this.opened.emit();
-
-    // Focus search input if searchable
-    setTimeout(() => {
-      if (this.searchable && this.searchInputElement) {
-        this.searchInputElement.nativeElement.focus();
-      }
-    });
   }
 
   close(): void {
     if (!this.isOpen) return;
 
     this.isOpen = false;
-    this.searchTerm = '';
     this.focusedIndex = -1;
     this.onTouched();
     this.closed.emit();
@@ -198,27 +182,6 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
       this.change.emit(option.value);
       this.close();
     }
-  }
-
-  removeOption(value: any, event: MouseEvent): void {
-    event.stopPropagation();
-    const index = this.selectedValues.indexOf(value);
-    if (index > -1) {
-      this.selectedValues.splice(index, 1);
-      if (this.multiple) {
-        this.onChange([...this.selectedValues]);
-        this.change.emit([...this.selectedValues]);
-      } else {
-        this.onChange(null);
-        this.change.emit(null);
-      }
-    }
-  }
-
-  onSearchChange(term: string): void {
-    this.searchTerm = term;
-    this.focusedIndex = -1;
-    this.search.emit(term);
   }
 
   private focusNext(): void {
@@ -256,16 +219,7 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   }
 
   get filteredOptions(): DropdownOption[] {
-    if (!this.searchable || !this.searchTerm) {
-      return this.options;
-    }
-
-    const term = this.searchTerm.toLowerCase();
-    return this.options.filter(
-      (option) =>
-        option.label.toLowerCase().includes(term) ||
-        option.description?.toLowerCase().includes(term)
-    );
+    return this.options;
   }
 
   get displayValue(): string {
@@ -274,7 +228,13 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
     }
 
     if (this.multiple) {
-      return `${this.selectedValues.length} selected`;
+      const selectedLabels = this.selectedValues
+        .map((value) => {
+          const option = this.options.find((o) => o.value === value);
+          return option ? option.label : '';
+        })
+        .filter((label) => label);
+      return selectedLabels.join(', ');
     }
 
     const selected = this.options.find(
@@ -293,10 +253,5 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
 
   isFocused(index: number): boolean {
     return this.focusedIndex === index;
-  }
-
-  getOptionLabel(value: any): string {
-    const option = this.options.find((o) => o.value === value);
-    return option ? option.label : '';
   }
 }

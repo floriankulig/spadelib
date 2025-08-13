@@ -15,7 +15,6 @@
           <div class="demo-row">
             <spade-button variant="primary">Primary</spade-button>
             <spade-button variant="secondary">Secondary</spade-button>
-            <spade-button variant="outline">Outline</spade-button>
             <spade-button variant="ghost">Ghost</spade-button>
             <spade-button variant="danger">Danger</spade-button>
           </div>
@@ -101,13 +100,12 @@
         </div>
 
         <div class="demo-item">
-          <h3>Multi Select with Search</h3>
+          <h3>Multi Select</h3>
           <spade-dropdown
             label="Technologies"
             placeholder="Select multiple"
             [options]="dropdownOptions"
             [multiple]="true"
-            [searchable]="true"
             [(ngModel)]="multiSelectValues"
           ></spade-dropdown>
         </div>
