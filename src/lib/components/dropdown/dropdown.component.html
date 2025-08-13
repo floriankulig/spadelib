@@ -1,0 +1,152 @@
+<div class="spade-dropdown" [class.spade-dropdown--open]="isOpen">
+  <label *ngIf="label" [for]="dropdownId" class="spade-dropdown__label">
+    {{ label }}
+    <span
+      *ngIf="required"
+      class="spade-dropdown__required"
+      aria-label="required"
+      >*</span
+    >
+  </label>
+
+  <button
+    #trigger
+    [id]="dropdownId"
+    type="button"
+    class="spade-dropdown__trigger"
+    [class.spade-dropdown__trigger--error]="error"
+    [class.spade-dropdown__trigger--disabled]="disabled"
+    [class.spade-dropdown__trigger--sm]="size === 'sm'"
+    [class.spade-dropdown__trigger--md]="size === 'md'"
+    [class.spade-dropdown__trigger--lg]="size === 'lg'"
+    [disabled]="disabled"
+    [attr.aria-label]="ariaLabel || label"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-haspopup]="true"
+    [attr.aria-controls]="dropdownId + '-listbox'"
+    [attr.aria-describedby]="
+      error ? dropdownId + '-error' : hint ? dropdownId + '-hint' : null
+    "
+    (click)="toggle()"
+  >
+    <div class="spade-dropdown__value">
+      <div
+        *ngIf="multiple && selectedValues.length > 0"
+        class="spade-dropdown__chips"
+      >
+        <span *ngFor="let value of selectedValues" class="spade-dropdown__chip">
+          {{ getOptionLabel(value) }}
+          <button
+            type="button"
+            class="spade-dropdown__chip-remove"
+            [attr.aria-label]="'Remove ' + getOptionLabel(value)"
+            (click)="removeOption(value, $event)"
+          >
+            ×
+          </button>
+        </span>
+      </div>
+
+      <span
+        *ngIf="!multiple || selectedValues.length === 0"
+        [class.spade-dropdown__placeholder]="!displayValue"
+      >
+        {{ displayValue || placeholder }}
+      </span>
+    </div>
+
+    <svg class="spade-dropdown__arrow" viewBox="0 0 20 20" fill="currentColor">
+      <path
+        fill-rule="evenodd"
+        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </button>
+
+  <div
+    *ngIf="isOpen"
+    class="spade-dropdown__panel"
+    [style.max-height]="maxHeight"
+    [id]="dropdownId + '-listbox'"
+    role="listbox"
+    [attr.aria-multiselectable]="multiple"
+    [attr.aria-label]="ariaLabel || label"
+  >
+    <div *ngIf="searchable" class="spade-dropdown__search">
+      <input
+        #searchInput
+        type="text"
+        class="spade-dropdown__search-input"
+        placeholder="Search..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange($any($event.target).value)"
+        aria-label="Search options"
+      />
+    </div>
+
+    <div class="spade-dropdown__options">
+      <button
+        *ngFor="let option of filteredOptions; let i = index"
+        type="button"
+        class="spade-dropdown__option"
+        [class.spade-dropdown__option--selected]="isSelected(option)"
+        [class.spade-dropdown__option--focused]="isFocused(i)"
+        [class.spade-dropdown__option--disabled]="option.disabled"
+        [disabled]="option.disabled"
+        [attr.role]="'option'"
+        [attr.aria-selected]="isSelected(option)"
+        [attr.aria-disabled]="option.disabled"
+        (click)="selectOption(option)"
+        (mouseenter)="focusedIndex = i"
+      >
+        <span
+          *ngIf="option.icon"
+          class="spade-dropdown__option-icon"
+          [innerHTML]="option.icon"
+        ></span>
+        <div class="spade-dropdown__option-content">
+          <span class="spade-dropdown__option-label">{{ option.label }}</span>
+          <span
+            *ngIf="option.description"
+            class="spade-dropdown__option-description"
+            >{{ option.description }}</span
+          >
+        </div>
+        <svg
+          *ngIf="multiple && isSelected(option)"
+          class="spade-dropdown__option-check"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <div *ngIf="filteredOptions.length === 0" class="spade-dropdown__empty">
+        No options found
+      </div>
+    </div>
+  </div>
+
+  <span
+    *ngIf="hint && !error"
+    [id]="dropdownId + '-hint'"
+    class="spade-dropdown__hint"
+  >
+    {{ hint }}
+  </span>
+
+  <span
+    *ngIf="error"
+    [id]="dropdownId + '-error'"
+    class="spade-dropdown__error"
+    role="alert"
+  >
+    {{ error }}
+  </span>
+</div>
