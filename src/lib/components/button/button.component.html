@@ -16,10 +16,12 @@
     <ng-content></ng-content>
   </span>
 
-  <span *ngIf="loading" class="spade-button__spinner" aria-hidden="true">
+  @if (loading) {
+  <span class="spade-button__spinner" aria-hidden="true">
     <svg class="spade-button__spinner-icon" viewBox="0 0 24 24">
       <circle class="spade-button__spinner-track" cx="12" cy="12" r="10" />
       <circle class="spade-button__spinner-fill" cx="12" cy="12" r="10" />
     </svg>
   </span>
+  }
 </button>

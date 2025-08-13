@@ -1,10 +1,12 @@
 <div class="spade-input" [class.spade-input--focused]="focused">
-  <label *ngIf="label" [for]="inputId" class="spade-input__label">
+  @if (label) {
+  <label [for]="inputId" class="spade-input__label">
     {{ label }}
-    <span *ngIf="required" class="spade-input__required" aria-label="required"
-      >*</span
-    >
+    @if (required) {
+    <span class="spade-input__required" aria-label="required">*</span>
+    }
   </label>
+  }
 
   <div class="spade-input__wrapper">
     <input
@@ -28,8 +30,8 @@
       (blur)="onInputBlur($event)"
     />
 
+    @if (showCharacterCount) {
     <span
-      *ngIf="showCharacterCount"
       [id]="inputId + '-count'"
       class="spade-input__char-count"
       [class]="characterCountClass"
@@ -38,18 +40,15 @@
     >
       {{ characterCount }}
     </span>
+    }
   </div>
 
-  <span
-    *ngIf="hint && !error"
-    [id]="inputId + '-hint'"
-    class="spade-input__hint"
-  >
+  @if (hint && !error) {
+  <span [id]="inputId + '-hint'" class="spade-input__hint">
     {{ hint }}
   </span>
-
+  } @if (error) {
   <span
-    *ngIf="error"
     [id]="inputId + '-error'"
     class="spade-input__error"
     role="alert"
@@ -57,4 +56,5 @@
   >
     {{ error }}
   </span>
+  }
 </div>

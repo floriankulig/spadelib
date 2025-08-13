@@ -1,13 +1,12 @@
 <div class="spade-dropdown" [class.spade-dropdown--open]="isOpen">
-  <label *ngIf="label" [for]="dropdownId" class="spade-dropdown__label">
+  @if (label) {
+  <label [for]="dropdownId" class="spade-dropdown__label">
     {{ label }}
-    <span
-      *ngIf="required"
-      class="spade-dropdown__required"
-      aria-label="required"
-      >*</span
-    >
+    @if (required) {
+    <span class="spade-dropdown__required" aria-label="required">*</span>
+    }
   </label>
+  }
 
   <button
     #trigger
@@ -30,11 +29,10 @@
     (click)="toggle()"
   >
     <div class="spade-dropdown__value">
-      <div
-        *ngIf="multiple && selectedValues.length > 0"
-        class="spade-dropdown__chips"
-      >
-        <span *ngFor="let value of selectedValues" class="spade-dropdown__chip">
+      @if (multiple && selectedValues.length > 0) {
+      <div class="spade-dropdown__chips">
+        @for (value of selectedValues; track value) {
+        <span class="spade-dropdown__chip">
           {{ getOptionLabel(value) }}
           <button
             type="button"
@@ -45,14 +43,13 @@
             ×
           </button>
         </span>
+        }
       </div>
-
-      <span
-        *ngIf="!multiple || selectedValues.length === 0"
-        [class.spade-dropdown__placeholder]="!displayValue"
-      >
+      } @if (!multiple || selectedValues.length === 0) {
+      <span [class.spade-dropdown__placeholder]="!displayValue">
         {{ displayValue || placeholder }}
       </span>
+      }
     </div>
 
     <svg class="spade-dropdown__arrow" viewBox="0 0 20 20" fill="currentColor">
@@ -64,8 +61,8 @@
     </svg>
   </button>
 
+  @if (isOpen) {
   <div
-    *ngIf="isOpen"
     class="spade-dropdown__panel"
     [style.max-height]="maxHeight"
     [id]="dropdownId + '-listbox'"
@@ -73,7 +70,8 @@
     [attr.aria-multiselectable]="multiple"
     [attr.aria-label]="ariaLabel || label"
   >
-    <div *ngIf="searchable" class="spade-dropdown__search">
+    @if (searchable) {
+    <div class="spade-dropdown__search">
       <input
         #searchInput
         type="text"
@@ -84,10 +82,11 @@
         aria-label="Search options"
       />
     </div>
+    }
 
     <div class="spade-dropdown__options">
+      @for (option of filteredOptions; track option; let i = $index) {
       <button
-        *ngFor="let option of filteredOptions; let i = index"
         type="button"
         class="spade-dropdown__option"
         [class.spade-dropdown__option--selected]="isSelected(option)"
@@ -100,21 +99,22 @@
         (click)="selectOption(option)"
         (mouseenter)="focusedIndex = i"
       >
+        @if (option.icon) {
         <span
-          *ngIf="option.icon"
           class="spade-dropdown__option-icon"
           [innerHTML]="option.icon"
         ></span>
+        }
         <div class="spade-dropdown__option-content">
           <span class="spade-dropdown__option-label">{{ option.label }}</span>
-          <span
-            *ngIf="option.description"
-            class="spade-dropdown__option-description"
-            >{{ option.description }}</span
-          >
+          @if (option.description) {
+          <span class="spade-dropdown__option-description">{{
+            option.description
+          }}</span>
+          }
         </div>
+        @if (multiple && isSelected(option)) {
         <svg
-          *ngIf="multiple && isSelected(option)"
           class="spade-dropdown__option-check"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -125,28 +125,20 @@
             clip-rule="evenodd"
           />
         </svg>
+        }
       </button>
-
-      <div *ngIf="filteredOptions.length === 0" class="spade-dropdown__empty">
-        No options found
-      </div>
+      } @if (filteredOptions.length === 0) {
+      <div class="spade-dropdown__empty">No options found</div>
+      }
     </div>
   </div>
-
-  <span
-    *ngIf="hint && !error"
-    [id]="dropdownId + '-hint'"
-    class="spade-dropdown__hint"
-  >
+  } @if (hint && !error) {
+  <span [id]="dropdownId + '-hint'" class="spade-dropdown__hint">
     {{ hint }}
   </span>
-
-  <span
-    *ngIf="error"
-    [id]="dropdownId + '-error'"
-    class="spade-dropdown__error"
-    role="alert"
-  >
+  } @if (error) {
+  <span [id]="dropdownId + '-error'" class="spade-dropdown__error" role="alert">
     {{ error }}
   </span>
+  }
 </div>
