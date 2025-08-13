@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SpadeButtonComponent } from '../lib/components/button/button';
-// import { SpadeInputComponent } from '../lib/components/input/input';
-// import {
-//   SpadeDropdownComponent,
-//   DropdownOption,
-// } from '../lib/components/dropdown/dropdown';
+import { SpadeButtonComponent } from '../lib/components/button/button.component';
+import { DropdownOption } from '../lib/components/dropdown/dropdown';
+import { SpadeInputComponent } from '../lib/components/input/input.component';
+import { SpadeDropdownComponent } from '../lib/components/dropdown/dropdown.component';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +13,8 @@ import { SpadeButtonComponent } from '../lib/components/button/button';
     CommonModule,
     FormsModule,
     SpadeButtonComponent,
-    // SpadeInputComponent,
-    // SpadeDropdownComponent,
+    SpadeInputComponent,
+    SpadeDropdownComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -33,38 +31,38 @@ export class App {
   singleSelectValue: any = null;
   multiSelectValues: any[] = [];
 
-  // dropdownOptions: DropdownOption[] = [
-  //   {
-  //     value: 'angular',
-  //     label: 'Angular',
-  //     icon: '🅰️',
-  //     description: 'TypeScript-based framework',
-  //   },
-  //   {
-  //     value: 'react',
-  //     label: 'React',
-  //     icon: '⚛️',
-  //     description: 'JavaScript library for UI',
-  //   },
-  //   {
-  //     value: 'vue',
-  //     label: 'Vue',
-  //     icon: '💚',
-  //     description: 'Progressive framework',
-  //   },
-  //   {
-  //     value: 'svelte',
-  //     label: 'Svelte',
-  //     icon: '🔥',
-  //     description: 'Compile-time optimized',
-  //   },
-  //   {
-  //     value: 'solid',
-  //     label: 'SolidJS',
-  //     icon: '⚡',
-  //     description: 'Fine-grained reactivity',
-  //   },
-  // ];
+  dropdownOptions: DropdownOption[] = [
+    {
+      value: 'angular',
+      label: 'Angular',
+      icon: '🅰️',
+      description: 'TypeScript-based framework',
+    },
+    {
+      value: 'react',
+      label: 'React',
+      icon: '⚛️',
+      description: 'JavaScript library for UI',
+    },
+    {
+      value: 'vue',
+      label: 'Vue',
+      icon: '💚',
+      description: 'Progressive framework',
+    },
+    {
+      value: 'svelte',
+      label: 'Svelte',
+      icon: '🔥',
+      description: 'Compile-time optimized',
+    },
+    {
+      value: 'solid',
+      label: 'SolidJS',
+      icon: '⚡',
+      description: 'Fine-grained reactivity',
+    },
+  ];
 
   onButtonClick(): void {
     this.buttonLoading = true;
