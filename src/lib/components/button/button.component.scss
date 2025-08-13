@@ -7,8 +7,8 @@
   align-items: center;
   justify-content: center;
   font-family: var(--spade-font-family);
-  font-weight: var(--spade-font-weight-medium);
-  border-radius: var(--spade-radius-md);
+  font-weight: var(--spade-font-weight-normal);
+  border-radius: var(--spade-radius-base);
   transition: all var(--spade-transition-fast);
   cursor: pointer;
   border: 1px solid transparent;
@@ -24,19 +24,19 @@
 
   // Size variants
   &--sm {
-    padding: var(--spade-spacing-1) var(--spade-spacing-3);
+    padding: var(--spade-spacing-1) var(--spade-spacing-4);
     font-size: var(--spade-font-size-sm);
     min-height: 32px;
   }
 
   &--md {
-    padding: var(--spade-spacing-2) var(--spade-spacing-4);
+    padding: var(--spade-spacing-2) var(--spade-spacing-5);
     font-size: var(--spade-font-size-base);
     min-height: 40px;
   }
 
   &--lg {
-    padding: var(--spade-spacing-3) var(--spade-spacing-6);
+    padding: var(--spade-spacing-3) var(--spade-spacing-8);
     font-size: var(--spade-font-size-lg);
     min-height: 48px;
   }
