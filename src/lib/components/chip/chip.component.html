@@ -1,0 +1,35 @@
+<div
+  [class]="chipClasses"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-disabled]="disabled"
+  [attr.aria-pressed]="selected"
+  [attr.tabindex]="disabled ? '-1' : '0'"
+  (click)="onClick($event)"
+  (keydown)="onKeyDown($event)"
+>
+  <span class="spade-chip__content">
+    <ng-content></ng-content>
+  </span>
+
+  @if (removable && !disabled) {
+  <button
+    type="button"
+    class="spade-chip__remove"
+    [attr.aria-label]="removeAriaLabel"
+    [attr.tabindex]="'-1'"
+    (click)="onRemove($event)"
+    (keydown)="onRemoveKeyDown($event)"
+  >
+    <svg
+      class="spade-chip__remove-icon"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"
+      />
+    </svg>
+  </button>
+  }
+</div>

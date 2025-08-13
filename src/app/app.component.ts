@@ -5,6 +5,7 @@ import { SpadeButtonComponent } from '../lib/components/button/button.component'
 import { DropdownOption } from '../lib/components/dropdown/dropdown';
 import { SpadeInputComponent } from '../lib/components/input/input.component';
 import { SpadeDropdownComponent } from '../lib/components/dropdown/dropdown.component';
+import { SpadeChipComponent } from '../lib/components/chip/chip.component';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { SpadeDropdownComponent } from '../lib/components/dropdown/dropdown.comp
     SpadeButtonComponent,
     SpadeInputComponent,
     SpadeDropdownComponent,
+    SpadeChipComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -62,6 +64,15 @@ export class App {
       icon: '⚡',
       description: 'Fine-grained reactivity',
     },
+  ];
+
+  availableTags = [
+    { id: 'angular', label: 'Angular' },
+    { id: 'react', label: 'React' },
+    { id: 'vue', label: 'Vue' },
+    { id: 'typescript', label: 'TypeScript' },
+    { id: 'javascript', label: 'JavaScript' },
+    { id: 'css', label: 'CSS' },
   ];
 
   onButtonClick(): void {

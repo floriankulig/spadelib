@@ -132,5 +132,46 @@
         </div>
       </div>
     </section>
+
+    <!-- Chip Component Demo -->
+    <section class="demo-section">
+      <h2>Chip Component</h2>
+
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h3>Variants</h3>
+          <div class="demo-row">
+            <spade-chip variant="primary">Primary</spade-chip>
+            <spade-chip variant="secondary">Secondary</spade-chip>
+            <spade-chip variant="neutral">Neutral</spade-chip>
+            <spade-chip variant="success">Success</spade-chip>
+            <spade-chip variant="warning">Warning</spade-chip>
+            <spade-chip variant="error">Error</spade-chip>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h3>Sizes</h3>
+          <div class="demo-row">
+            <spade-chip size="sm">Small</spade-chip>
+            <spade-chip size="md">Medium</spade-chip>
+            <spade-chip size="lg">Large</spade-chip>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h3>Interactive States</h3>
+          <div class="demo-row">
+            <spade-chip [selected]="true" variant="primary"
+              >Selected</spade-chip
+            >
+            <spade-chip [disabled]="true">Disabled</spade-chip>
+            <spade-chip [removable]="true" [value]="'removable'"
+              >Removable</spade-chip
+            >
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </div>
