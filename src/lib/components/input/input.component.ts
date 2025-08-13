@@ -110,12 +110,15 @@ export class SpadeInputComponent implements ControlValueAccessor, OnInit {
     this.blur.emit(event);
   }
 
-  get inputClasses(): string {
-    const classes = ['spade-input__field', `spade-input__field--${this.size}`];
+  get inputWrapperClasses(): string {
+    const classes = [
+      'spade-input__wrapper',
+      `spade-input__wrapper--${this.size}`,
+    ];
 
-    if (this.error) classes.push('spade-input__field--error');
-    if (this.disabled) classes.push('spade-input__field--disabled');
-    if (this.readonly) classes.push('spade-input__field--readonly');
+    if (this.error) classes.push('spade-input__wrapper--error');
+    if (this.disabled) classes.push('spade-input__wrapper--disabled');
+    if (this.readonly) classes.push('spade-input__wrapper--readonly');
 
     return classes.join(' ');
   }

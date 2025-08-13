@@ -8,12 +8,12 @@
   </label>
   }
 
-  <div class="spade-input__wrapper">
+  <div [class]="inputWrapperClasses">
     <input
       #inputElement
       [id]="inputId"
       [type]="type"
-      [class]="inputClasses"
+      class="spade-input__field"
       [placeholder]="placeholder"
       [disabled]="disabled"
       [readonly]="readonly"
