@@ -86,10 +86,6 @@
     &--readonly {
       background-color: var(--spade-color-neutral-50);
     }
-
-    &:has(~ .spade-input__char-count) {
-      padding-right: 56px;
-    }
   }
 
   &__hint,
@@ -105,21 +101,5 @@
 
   &__error {
     color: var(--spade-color-error);
-  }
-
-  &__char-count {
-    position: absolute;
-    right: var(--spade-spacing-3);
-    font-size: var(--spade-font-size-xs);
-    color: var(--spade-color-neutral-500);
-    pointer-events: none;
-
-    &--warning {
-      color: var(--spade-color-warning);
-    }
-
-    &--error {
-      color: var(--spade-color-error);
-    }
   }
 }

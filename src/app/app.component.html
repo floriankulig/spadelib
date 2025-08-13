@@ -36,10 +36,7 @@
             <spade-button [disabled]="true" variant="primary"
               >Disabled</spade-button
             >
-            <spade-button
-              [loading]="buttonLoading"
-              (click)="onButtonClick()"
-            >
+            <spade-button [loading]="buttonLoading" (click)="onButtonClick()">
               Click to Load
             </spade-button>
             <spade-button [fullWidth]="true">Full Width</spade-button>
@@ -61,16 +58,6 @@
             [(ngModel)]="inputValue"
             [required]="true"
             hint="Choose a unique username"
-          ></spade-input>
-        </div>
-
-        <div class="demo-item">
-          <h3>With Character Count</h3>
-          <spade-input
-            label="Bio"
-            placeholder="Tell us about yourself"
-            [maxLength]="100"
-            [showCharacterCount]="true"
           ></spade-input>
         </div>
 

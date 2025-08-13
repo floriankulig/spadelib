@@ -40,7 +40,6 @@ export class SpadeInputComponent implements ControlValueAccessor, OnInit {
   @Input() required = false;
   @Input() error?: string;
   @Input() hint?: string;
-  @Input() showCharacterCount = false;
   @Input() inputId?: string;
   @Input() ariaLabel?: string;
   @Input() ariaDescribedBy?: string;
@@ -121,27 +120,11 @@ export class SpadeInputComponent implements ControlValueAccessor, OnInit {
     return classes.join(' ');
   }
 
-  get characterCount(): string {
-    const length = this.value ? this.value.length : 0;
-    return this.maxLength ? `${length}/${this.maxLength}` : `${length}`;
-  }
-
-  get characterCountClass(): string {
-    if (!this.maxLength) return '';
-    const length = this.value ? this.value.length : 0;
-    const percentage = (length / this.maxLength) * 100;
-
-    if (percentage >= 100) return 'spade-input__char-count--error';
-    if (percentage >= 90) return 'spade-input__char-count--warning';
-    return '';
-  }
-
   get ariaDescribedByIds(): string {
     const ids = [];
     if (this.ariaDescribedBy) ids.push(this.ariaDescribedBy);
     if (this.error) ids.push(`${this.inputId}-error`);
     if (this.hint) ids.push(`${this.inputId}-hint`);
-    if (this.showCharacterCount) ids.push(`${this.inputId}-count`);
     return ids.join(' ');
   }
 }

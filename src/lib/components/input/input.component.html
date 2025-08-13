@@ -29,18 +29,6 @@
       (focus)="onInputFocus($event)"
       (blur)="onInputBlur($event)"
     />
-
-    @if (showCharacterCount) {
-    <span
-      [id]="inputId + '-count'"
-      class="spade-input__char-count"
-      [class]="characterCountClass"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      {{ characterCount }}
-    </span>
-    }
   </div>
 
   @if (hint && !error) {
