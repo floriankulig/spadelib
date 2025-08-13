@@ -29,7 +29,7 @@ export class SpadeButtonComponent implements OnInit {
   @Input() ariaPressed?: boolean;
   @Input() ariaExpanded?: boolean;
 
-  @Output() spadeClick = new EventEmitter<MouseEvent>();
+  @Output() click = new EventEmitter<MouseEvent>();
 
   @HostBinding('class.spade-button-host') hostClass = true;
 
@@ -60,7 +60,7 @@ export class SpadeButtonComponent implements OnInit {
       event.stopPropagation();
       return;
     }
-    this.spadeClick.emit(event);
+    this.click.emit(event);
   }
 
   get buttonClasses(): string {

@@ -46,9 +46,9 @@ export class SpadeInputComponent implements ControlValueAccessor, OnInit {
   @Input() ariaDescribedBy?: string;
   @Input() autocomplete?: string;
 
-  @Output() spadeInput = new EventEmitter<string>();
-  @Output() spadeBlur = new EventEmitter<FocusEvent>();
-  @Output() spadeFocus = new EventEmitter<FocusEvent>();
+  @Output() input = new EventEmitter<string>();
+  @Output() blur = new EventEmitter<FocusEvent>();
+  @Output() focus = new EventEmitter<FocusEvent>();
 
   @ViewChild('inputElement') inputElement!: ElementRef<HTMLInputElement>;
 
@@ -97,18 +97,18 @@ export class SpadeInputComponent implements ControlValueAccessor, OnInit {
   onInputChange(value: string): void {
     this.value = value;
     this.onChange(value);
-    this.spadeInput.emit(value);
+    this.input.emit(value);
   }
 
   onInputFocus(event: FocusEvent): void {
     this.focused = true;
-    this.spadeFocus.emit(event);
+    this.focus.emit(event);
   }
 
   onInputBlur(event: FocusEvent): void {
     this.focused = false;
     this.onTouched();
-    this.spadeBlur.emit(event);
+    this.blur.emit(event);
   }
 
   get inputClasses(): string {

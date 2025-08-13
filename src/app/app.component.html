@@ -38,7 +38,7 @@
             >
             <spade-button
               [loading]="buttonLoading"
-              (spadeClick)="onButtonClick()"
+              (click)="onButtonClick()"
             >
               Click to Load
             </spade-button>
@@ -109,7 +109,7 @@
             placeholder="Choose a framework"
             [options]="dropdownOptions"
             [(ngModel)]="singleSelectValue"
-            (spadeChange)="onDropdownChange($event)"
+            (change)="onDropdownChange($event)"
           ></spade-dropdown>
         </div>
 

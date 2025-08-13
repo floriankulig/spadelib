@@ -46,19 +46,19 @@ Edit `design-tokens.scss` to match your brand:
 ### Button
 
 ```html
-<spade-button variant="primary|secondary|outline|ghost|danger" size="sm|md|lg" [disabled]="boolean" [loading]="boolean" [fullWidth]="boolean" (spadeClick)="handler($event)"> Button Text </spade-button>
+<spade-button variant="primary|secondary|outline|ghost|danger" size="sm|md|lg" [disabled]="boolean" [loading]="boolean" [fullWidth]="boolean" (click)="handler($event)"> Button Text </spade-button>
 ```
 
 ### Input
 
 ```html
-<spade-input label="Field Label" placeholder="Placeholder text" type="text|email|password|number|tel|url" size="sm|md|lg" [required]="boolean" [disabled]="boolean" [maxLength]="number" [showCharacterCount]="boolean" [(ngModel)]="value" (spadeInput)="handler($event)"> </spade-input>
+<spade-input label="Field Label" placeholder="Placeholder text" type="text|email|password|number|tel|url" size="sm|md|lg" [required]="boolean" [disabled]="boolean" [maxLength]="number" [showCharacterCount]="boolean" [(ngModel)]="value" (input)="handler($event)"> </spade-input>
 ```
 
 ### Dropdown
 
 ```html
-<spade-dropdown label="Select Label" placeholder="Choose..." [options]="optionsArray" [multiple]="boolean" [searchable]="boolean" [disabled]="boolean" [(ngModel)]="selectedValue" (spadeChange)="handler($event)"> </spade-dropdown>
+<spade-dropdown label="Select Label" placeholder="Choose..." [options]="optionsArray" [multiple]="boolean" [searchable]="boolean" [disabled]="boolean" [(ngModel)]="selectedValue" (change)="handler($event)"> </spade-dropdown>
 ```
 
 ## Accessibility

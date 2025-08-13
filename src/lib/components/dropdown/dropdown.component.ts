@@ -46,10 +46,10 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   @Input() dropdownId?: string;
   @Input() ariaLabel?: string;
 
-  @Output() spadeChange = new EventEmitter<any>();
-  @Output() spadeOpen = new EventEmitter<void>();
-  @Output() spadeClose = new EventEmitter<void>();
-  @Output() spadeSearch = new EventEmitter<string>();
+  @Output() change = new EventEmitter<any>();
+  @Output() opened = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>();
+  @Output() search = new EventEmitter<string>();
 
   @ViewChild('trigger') triggerElement!: ElementRef<HTMLButtonElement>;
   @ViewChild('dropdownPanel') dropdownPanelElement!: ElementRef<HTMLDivElement>;
@@ -160,7 +160,7 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
 
     this.isOpen = true;
     this.focusedIndex = -1;
-    this.spadeOpen.emit();
+    this.opened.emit();
 
     // Focus search input if searchable
     setTimeout(() => {
@@ -177,7 +177,7 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
     this.searchTerm = '';
     this.focusedIndex = -1;
     this.onTouched();
-    this.spadeClose.emit();
+    this.closed.emit();
   }
 
   selectOption(option: DropdownOption): void {
@@ -191,11 +191,11 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
         this.selectedValues.push(option.value);
       }
       this.onChange([...this.selectedValues]);
-      this.spadeChange.emit([...this.selectedValues]);
+      this.change.emit([...this.selectedValues]);
     } else {
       this.selectedValues = [option.value];
       this.onChange(option.value);
-      this.spadeChange.emit(option.value);
+      this.change.emit(option.value);
       this.close();
     }
   }
@@ -207,10 +207,10 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
       this.selectedValues.splice(index, 1);
       if (this.multiple) {
         this.onChange([...this.selectedValues]);
-        this.spadeChange.emit([...this.selectedValues]);
+        this.change.emit([...this.selectedValues]);
       } else {
         this.onChange(null);
-        this.spadeChange.emit(null);
+        this.change.emit(null);
       }
     }
   }
@@ -218,7 +218,7 @@ export class SpadeDropdownComponent implements ControlValueAccessor, OnInit {
   onSearchChange(term: string): void {
     this.searchTerm = term;
     this.focusedIndex = -1;
-    this.spadeSearch.emit(term);
+    this.search.emit(term);
   }
 
   private focusNext(): void {
