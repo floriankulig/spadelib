@@ -76,12 +76,12 @@ This project is part of a bachelor thesis investigating:
 
 🚧 **In Development** - This is a research project and prototype implementation
 
-- [ ] Core component architecture
+- [x] Core component architecture
+- [x] Design token system implementation
+- [ ] Usability testing
 - [ ] CLI tooling development
-- [ ] Design token system implementation
 - [ ] Accessibility framework integration
-- [ ] Framework-agnostic evaluation
-- [ ] Performance and usability testing
+- [ ] Performance testing
 
 ## Technology Stack
 
@@ -97,10 +97,6 @@ This project is currently in active research and development phase. Contribution
 ## Research Context
 
 This component library is being developed as part of a bachelor thesis at Capgemini, focusing on optimizing frontend development for project business scenarios. The research aims to provide quantitative and qualitative evaluation of different component library approaches in enterprise consulting contexts.
-
-## License
-
-[License information to be determined]
 
 ---
 
