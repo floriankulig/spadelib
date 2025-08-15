@@ -5,6 +5,7 @@
   // Button-specific tokens referencing form category tokens
   --spade-button-border-radius: var(--spade-form-border-radius);
   --spade-button-border-width: var(--spade-form-border-width);
+  --spade-button-border-color: transparent;
   --spade-button-font-family: var(--spade-form-font-family);
   --spade-button-font-weight: var(--spade-form-font-weight-normal);
   --spade-button-transition: var(--spade-form-transition-all);
@@ -68,7 +69,8 @@
   border-radius: var(--spade-button-border-radius);
   transition: var(--spade-button-transition);
   cursor: var(--spade-button-cursor);
-  border: var(--spade-button-border-width) solid transparent;
+  border: var(--spade-button-border-width) solid
+    var(--spade-button-border-color);
   white-space: nowrap;
   user-select: none;
   vertical-align: middle;
