@@ -1,83 +1,150 @@
-@import "../../styles/base.scss";
+@use "../../styles/base.scss" as *;
+
+// Component-specific tokens (will be flattened by CLI)
+:host {
+  // Input-specific tokens referencing form category tokens
+  --spade-input-font-family: var(--spade-form-font-family);
+  --spade-input-border-radius: var(--spade-form-border-radius);
+  --spade-input-border-width: var(--spade-form-border-width);
+  --spade-input-transition: var(--spade-form-transition-all);
+
+  // Input wrapper styles
+  --spade-input-wrapper-border-color: var(--spade-form-border-color);
+  --spade-input-wrapper-border-color-hover: var(
+    --spade-form-border-color-hover
+  );
+  --spade-input-wrapper-border-color-focus: var(
+    --spade-form-border-color-focus
+  );
+  --spade-input-wrapper-border-color-error: var(
+    --spade-form-border-color-error
+  );
+  --spade-input-wrapper-background: var(--spade-form-background-color);
+  --spade-input-wrapper-background-disabled: var(
+    --spade-form-background-color-disabled
+  );
+  --spade-input-wrapper-background-readonly: var(
+    --spade-form-background-color-readonly
+  );
+  --spade-input-wrapper-gap: var(--spade-form-element-gap);
+
+  // Input field colors
+  --spade-input-text-color: var(--spade-form-text-color);
+  --spade-input-text-color-disabled: var(--spade-form-text-color-disabled);
+  --spade-input-placeholder-color: var(--spade-form-text-color-placeholder);
+
+  // Input size variants
+  --spade-input-padding-sm: var(--spade-form-padding-sm);
+  --spade-input-padding-md: var(--spade-form-padding-md);
+  --spade-input-padding-lg: var(--spade-form-padding-lg);
+  --spade-input-font-size-sm: var(--spade-form-font-size-sm);
+  --spade-input-font-size-md: var(--spade-form-font-size-md);
+  --spade-input-font-size-lg: var(--spade-form-font-size-lg);
+  --spade-input-min-height-sm: var(--spade-form-min-height-sm);
+  --spade-input-min-height-md: var(--spade-form-min-height-md);
+  --spade-input-min-height-lg: var(--spade-form-min-height-lg);
+
+  // Input label styles
+  --spade-input-label-color: var(--spade-form-text-color-label);
+  --spade-input-label-color-focus: var(--spade-form-text-color-label-focus);
+  --spade-input-label-font-size: var(--spade-form-font-size-sm);
+  --spade-input-label-font-weight: var(--spade-form-font-weight-medium);
+  --spade-input-label-spacing: var(--spade-form-label-spacing);
+  --spade-input-label-transition: color var(--spade-form-transition);
+
+  // Input required indicator
+  --spade-input-required-color: var(--spade-form-text-color-required);
+  --spade-input-required-spacing: var(--spade-form-required-spacing);
+
+  // Input hint and error text
+  --spade-input-hint-color: var(--spade-form-text-color-hint);
+  --spade-input-error-color: var(--spade-form-text-color-error);
+  --spade-input-hint-font-size: var(--spade-form-font-size-sm);
+  --spade-input-hint-spacing: var(--spade-form-hint-spacing);
+
+  // Input states
+  --spade-input-cursor-disabled: var(--spade-form-cursor-disabled);
+}
 
 .spade-input {
   display: block;
   width: 100%;
-  font-family: var(--spade-font-family);
+  font-family: var(--spade-input-font-family);
 
   &--focused {
     .spade-input__label {
-      color: var(--spade-color-primary-600);
+      color: var(--spade-input-label-color-focus);
     }
   }
 
   &__label {
     display: block;
-    margin-bottom: var(--spade-spacing-2);
-    font-size: var(--spade-font-size-sm);
-    font-weight: var(--spade-font-weight-medium);
-    color: var(--spade-color-neutral-700);
-    transition: color var(--spade-transition-fast);
+    margin-bottom: var(--spade-input-label-spacing);
+    font-size: var(--spade-input-label-font-size);
+    font-weight: var(--spade-input-label-font-weight);
+    color: var(--spade-input-label-color);
+    transition: var(--spade-input-label-transition);
   }
 
   &__required {
-    color: var(--spade-color-error);
-    margin-left: var(--spade-spacing-1);
+    color: var(--spade-input-required-color);
+    margin-left: var(--spade-input-required-spacing);
   }
 
   &__wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--spade-spacing-1);
+    gap: var(--spade-input-wrapper-gap);
     font-family: inherit;
-    border: 1px solid var(--spade-color-neutral-300);
-    border-radius: var(--spade-radius-md);
-    background-color: white;
-    color: var(--spade-color-neutral-900);
-    transition: all var(--spade-transition-fast);
+    border: var(--spade-input-border-width) solid
+      var(--spade-input-wrapper-border-color);
+    border-radius: var(--spade-input-border-radius);
+    background-color: var(--spade-input-wrapper-background);
+    color: var(--spade-input-text-color);
+    transition: var(--spade-input-transition);
 
     // Size variants
     &--sm {
-      padding: var(--spade-spacing-1) var(--spade-spacing-2);
-      font-size: var(--spade-font-size-sm);
-      min-height: 32px;
+      padding: var(--spade-input-padding-sm);
+      font-size: var(--spade-input-font-size-sm);
+      min-height: var(--spade-input-min-height-sm);
     }
 
     &--md {
-      padding: var(--spade-spacing-2) var(--spade-spacing-3);
-      font-size: var(--spade-font-size-base);
-      min-height: 40px;
+      padding: var(--spade-input-padding-md);
+      font-size: var(--spade-input-font-size-md);
+      min-height: var(--spade-input-min-height-md);
     }
 
     &--lg {
-      padding: var(--spade-spacing-3) var(--spade-spacing-4);
-      font-size: var(--spade-font-size-lg);
-      min-height: 48px;
+      padding: var(--spade-input-padding-lg);
+      font-size: var(--spade-input-font-size-lg);
+      min-height: var(--spade-input-min-height-lg);
     }
 
     // States
     &--error {
-      border-color: var(--spade-color-error);
+      border-color: var(--spade-input-wrapper-border-color-error);
 
       &:focus {
-        outline-color: var(--spade-color-error);
+        outline-color: var(--spade-input-wrapper-border-color-error);
       }
     }
 
     &--disabled {
-      background-color: var(--spade-color-neutral-50);
-      color: var(--spade-color-neutral-500);
-      cursor: not-allowed;
+      background-color: var(--spade-input-wrapper-background-disabled);
+      color: var(--spade-input-text-color-disabled);
+      cursor: var(--spade-input-cursor-disabled);
     }
 
     &--readonly {
-      background-color: var(--spade-color-neutral-50);
+      background-color: var(--spade-input-wrapper-background-readonly);
     }
 
     &:focus-within {
       @extend .spade-focus-visible;
-      border-color: var(--spade-color-primary-500);
+      border-color: var(--spade-input-wrapper-border-color-focus);
     }
   }
 
@@ -90,7 +157,7 @@
     color: inherit;
 
     &::placeholder {
-      color: var(--spade-color-neutral-400);
+      color: var(--spade-input-placeholder-color);
     }
 
     &:focus {
@@ -101,15 +168,15 @@
   &__hint,
   &__error {
     display: block;
-    margin-top: var(--spade-spacing-1);
-    font-size: var(--spade-font-size-sm);
+    margin-top: var(--spade-input-hint-spacing);
+    font-size: var(--spade-input-hint-font-size);
   }
 
   &__hint {
-    color: var(--spade-color-neutral-600);
+    color: var(--spade-input-hint-color);
   }
 
   &__error {
-    color: var(--spade-color-error);
+    color: var(--spade-input-error-color);
   }
 }

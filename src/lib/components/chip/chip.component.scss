@@ -1,17 +1,34 @@
 @use "../../styles/base.scss" as *;
 
+// Component-specific tokens (will be flattened by CLI)
+:host {
+  // Chip-specific tokens referencing form category tokens
+  --spade-chip-font-family: var(--spade-form-font-family);
+  --spade-chip-font-weight: var(--spade-form-font-weight-medium);
+  --spade-chip-border-radius: var(--spade-radius-full);
+  --spade-chip-border-width: var(--spade-form-border-width);
+  --spade-chip-transition: var(--spade-form-transition-all);
+  --spade-chip-cursor: var(--spade-form-cursor-interactive);
+  --spade-chip-gap: var(--spade-spacing-1);
+  
+  // Chip size variants
+  --spade-chip-padding-sm: var(--spade-spacing-1) var(--spade-spacing-2);
+  --spade-chip-font-size-sm: var(--spade-font-size-xs);
+  --spade-chip-min-height-sm: 20px;
+}
+
 .spade-chip {
   // Base styles
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--spade-spacing-1);
-  font-family: var(--spade-font-family);
-  font-weight: var(--spade-font-weight-medium);
-  border-radius: var(--spade-radius-full);
-  transition: all var(--spade-transition-fast);
-  cursor: pointer;
-  border: 1px solid transparent;
+  gap: var(--spade-chip-gap);
+  font-family: var(--spade-chip-font-family);
+  font-weight: var(--spade-chip-font-weight);
+  border-radius: var(--spade-chip-border-radius);
+  transition: var(--spade-chip-transition);
+  cursor: var(--spade-chip-cursor);
+  border: var(--spade-chip-border-width) solid transparent;
   white-space: nowrap;
   user-select: none;
   vertical-align: middle;
@@ -23,9 +40,9 @@
 
   // Size variants
   &--sm {
-    padding: var(--spade-spacing-1) var(--spade-spacing-2);
-    font-size: var(--spade-font-size-xs);
-    min-height: 20px;
+    padding: var(--spade-chip-padding-sm);
+    font-size: var(--spade-chip-font-size-sm);
+    min-height: var(--spade-chip-min-height-sm);
 
     .spade-chip__remove {
       width: 14px;

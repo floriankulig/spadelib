@@ -1,17 +1,74 @@
 @use "../../styles/base.scss" as *;
 
+// Component-specific tokens (will be flattened by CLI)
+:host {
+  // Button-specific tokens referencing form category tokens
+  --spade-button-border-radius: var(--spade-form-border-radius);
+  --spade-button-border-width: var(--spade-form-border-width);
+  --spade-button-font-family: var(--spade-form-font-family);
+  --spade-button-font-weight: var(--spade-form-font-weight-normal);
+  --spade-button-transition: var(--spade-form-transition-all);
+  --spade-button-cursor: var(--spade-form-cursor-interactive);
+
+  // Button size variants
+  --spade-button-padding-sm: var(--spade-form-button-padding-sm);
+  --spade-button-padding-md: var(--spade-form-button-padding-md);
+  --spade-button-padding-lg: var(--spade-form-button-padding-lg);
+  --spade-button-font-size-sm: var(--spade-form-font-size-sm);
+  --spade-button-font-size-md: var(--spade-form-font-size-md);
+  --spade-button-font-size-lg: var(--spade-form-font-size-lg);
+  --spade-button-min-height-sm: var(--spade-form-min-height-sm);
+  --spade-button-min-height-md: var(--spade-form-min-height-md);
+  --spade-button-min-height-lg: var(--spade-form-min-height-lg);
+
+  // Button variant colors - Primary
+  --spade-button-primary-bg: var(--spade-color-primary-600);
+  --spade-button-primary-bg-hover: var(--spade-color-primary-700);
+  --spade-button-primary-bg-active: var(--spade-color-primary-800);
+  --spade-button-primary-text: white;
+
+  // Button variant colors - Secondary
+  --spade-button-secondary-bg: var(--spade-color-neutral-100);
+  --spade-button-secondary-bg-hover: var(--spade-color-neutral-200);
+  --spade-button-secondary-bg-active: var(--spade-color-neutral-300);
+  --spade-button-secondary-text: var(--spade-color-neutral-900);
+
+  // Button variant colors - Ghost
+  --spade-button-ghost-bg: transparent;
+  --spade-button-ghost-bg-hover: var(--spade-color-primary-50);
+  --spade-button-ghost-bg-active: var(--spade-color-primary-100);
+  --spade-button-ghost-text: var(--spade-color-primary-600);
+
+  // Button variant colors - Danger
+  --spade-button-danger-bg: var(--spade-color-error);
+  --spade-button-danger-text: white;
+  --spade-button-danger-hover-filter: brightness(0.9);
+  --spade-button-danger-active-filter: brightness(0.8);
+
+  // Button states
+  --spade-button-opacity-disabled: var(--spade-form-opacity-disabled);
+  --spade-button-cursor-disabled: var(--spade-form-cursor-disabled);
+  --spade-button-cursor-loading: wait;
+
+  // Button content
+  --spade-button-content-gap: var(--spade-spacing-2);
+
+  // Button loading spinner
+  --spade-button-spinner-animation: spade-spin 1s linear infinite;
+}
+
 .spade-button {
   // Base styles
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--spade-font-family);
-  font-weight: var(--spade-font-weight-normal);
-  border-radius: var(--spade-radius-base);
-  transition: all var(--spade-transition-fast);
-  cursor: pointer;
-  border: 1px solid transparent;
+  font-family: var(--spade-button-font-family);
+  font-weight: var(--spade-button-font-weight);
+  border-radius: var(--spade-button-border-radius);
+  transition: var(--spade-button-transition);
+  cursor: var(--spade-button-cursor);
+  border: var(--spade-button-border-width) solid transparent;
   white-space: nowrap;
   user-select: none;
   vertical-align: middle;
@@ -24,73 +81,73 @@
 
   // Size variants
   &--sm {
-    padding: var(--spade-spacing-1) var(--spade-spacing-4);
-    font-size: var(--spade-font-size-sm);
-    min-height: 32px;
+    padding: var(--spade-button-padding-sm);
+    font-size: var(--spade-button-font-size-sm);
+    min-height: var(--spade-button-min-height-sm);
   }
 
   &--md {
-    padding: var(--spade-spacing-2) var(--spade-spacing-5);
-    font-size: var(--spade-font-size-base);
-    min-height: 40px;
+    padding: var(--spade-button-padding-md);
+    font-size: var(--spade-button-font-size-md);
+    min-height: var(--spade-button-min-height-md);
   }
 
   &--lg {
-    padding: var(--spade-spacing-3) var(--spade-spacing-8);
-    font-size: var(--spade-font-size-lg);
-    min-height: 48px;
+    padding: var(--spade-button-padding-lg);
+    font-size: var(--spade-button-font-size-lg);
+    min-height: var(--spade-button-min-height-lg);
   }
 
   // Variant styles
   &--primary {
-    background-color: var(--spade-color-primary-600);
-    color: white;
+    background-color: var(--spade-button-primary-bg);
+    color: var(--spade-button-primary-text);
 
     &:hover:not(:disabled) {
-      background-color: var(--spade-color-primary-700);
+      background-color: var(--spade-button-primary-bg-hover);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--spade-color-primary-800);
+      background-color: var(--spade-button-primary-bg-active);
     }
   }
 
   &--secondary {
-    background-color: var(--spade-color-neutral-100);
-    color: var(--spade-color-neutral-900);
+    background-color: var(--spade-button-secondary-bg);
+    color: var(--spade-button-secondary-text);
 
     &:hover:not(:disabled) {
-      background-color: var(--spade-color-neutral-200);
+      background-color: var(--spade-button-secondary-bg-hover);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--spade-color-neutral-300);
+      background-color: var(--spade-button-secondary-bg-active);
     }
   }
 
   &--ghost {
-    background-color: transparent;
-    color: var(--spade-color-primary-600);
+    background-color: var(--spade-button-ghost-bg);
+    color: var(--spade-button-ghost-text);
 
     &:hover:not(:disabled) {
-      background-color: var(--spade-color-primary-50);
+      background-color: var(--spade-button-ghost-bg-hover);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--spade-color-primary-100);
+      background-color: var(--spade-button-ghost-bg-active);
     }
   }
 
   &--danger {
-    background-color: var(--spade-color-error);
-    color: white;
+    background-color: var(--spade-button-danger-bg);
+    color: var(--spade-button-danger-text);
 
     &:hover:not(:disabled) {
-      filter: brightness(0.9);
+      filter: var(--spade-button-danger-hover-filter);
     }
 
     &:active:not(:disabled) {
-      filter: brightness(0.8);
+      filter: var(--spade-button-danger-active-filter);
     }
   }
 
@@ -101,19 +158,19 @@
 
   &--disabled,
   &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    opacity: var(--spade-button-opacity-disabled);
+    cursor: var(--spade-button-cursor-disabled);
   }
 
   &--loading {
-    cursor: wait;
+    cursor: var(--spade-button-cursor-loading);
   }
 
   // Content
   &__content {
     display: inline-flex;
     align-items: center;
-    gap: var(--spade-spacing-2);
+    gap: var(--spade-button-content-gap);
 
     &--hidden {
       visibility: hidden;
@@ -128,7 +185,7 @@
     &-icon {
       width: 1em;
       height: 1em;
-      animation: spade-spin 1s linear infinite;
+      animation: var(--spade-button-spinner-animation);
     }
 
     &-track {

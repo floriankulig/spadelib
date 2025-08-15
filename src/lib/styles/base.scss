@@ -1,5 +1,6 @@
 // Base styles and utilities
 @use "../tokens/design-tokens.scss" as *;
+@use "../tokens/categories/form-tokens.scss" as *;
 
 // Reset and base styles
 * {
