@@ -1,4 +1,4 @@
-# Spade Component Library
+# ♠️ Spade Component Library
 
 > A project-business optimized frontend component library designed for consulting environments with diverse client requirements
 
