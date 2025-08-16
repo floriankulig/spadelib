@@ -1,0 +1,65 @@
+<app-task-layout
+  [taskNumber]="1"
+  taskTitle="Button Component Adaptation"
+  estimatedTime="15 minutes"
+  taskDifficulty="easiest"
+  targetImageSrc="/assets/task-1-target.png"
+>
+  <!-- Requirements Slot -->
+  <div slot="requirements">
+    <p>
+      Your task is to enhance both Angular Material and spade button
+      implementations to support a new corporate design for an automotive
+      client.
+    </p>
+
+    <h4>Specific Requirements:</h4>
+    <ol>
+      <li>
+        <strong>Outline Variant:</strong>
+        <ul>
+          <li>Transparent background</li>
+          <li>Colored border (2px solid)</li>
+          <li>Colored text matching border</li>
+          <li>Hover state with subtle background fill</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Primary Color Update:</strong>
+        <ul>
+          <li>Change primary color from default to #1E3A8A (dark blue)</li>
+          <li>Apply to all existing button variants</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Icon-Only Support:</strong>
+        <ul>
+          <li>Button variant that shows only an icon (+ symbol)</li>
+          <li>Proper sizing and padding</li>
+          <li>Accessible with aria-label</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Success Criteria Slot -->
+  <div slot="success-criteria">
+    <ul>
+      <li>✅ All three features implemented in both libraries</li>
+      <li>✅ Buttons work in all states (default, hover, focus, disabled)</li>
+      <li>✅ Visual consistency between implementations</li>
+      <li>✅ Color scheme correctly applied</li>
+      <li>✅ Icon-only buttons have proper accessibility</li>
+    </ul>
+  </div>
+
+  <!-- Material Implementation Slot -->
+  <div slot="material-implementation">
+    <app-material-button></app-material-button>
+  </div>
+
+  <!-- spade Implementation Slot -->
+  <div slot="spade-implementation">
+    <app-spade-button></app-spade-button>
+  </div>
+</app-task-layout>

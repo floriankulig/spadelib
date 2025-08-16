@@ -1,0 +1,25 @@
+<!-- Main Navigation -->
+<nav class="experiment-nav">
+  <div class="nav-container">
+    <h1>Frontend Component Libraries - Development Experiment</h1>
+    <div class="nav-links">
+      <a routerLink="/instructions" routerLinkActive="active">Instructions</a>
+      <div class="tasks">
+        <a routerLink="/task-button" routerLinkActive="active"
+          >Task 1: Button</a
+        >
+        <a routerLink="/task-input" routerLinkActive="active">Task 2: Input</a>
+        <a routerLink="/task-dropdown" routerLinkActive="active"
+          >Task 3: Dropdown</a
+        >
+      </div>
+      <a routerLink="/feedback" routerLinkActive="active">Feedback</a>
+    </div>
+    <span class="hint">Do 1 or more tasks, order doesn't matter</span>
+  </div>
+</nav>
+
+<!-- Route Content -->
+<main class="experiment-content">
+  <router-outlet></router-outlet>
+</main>

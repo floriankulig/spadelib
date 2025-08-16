@@ -1,0 +1,61 @@
+<div class="task-layout side-by-side">
+  <!-- Left Panel: Requirements -->
+  <div class="requirements-panel">
+    <header class="task-header">
+      <h1>{{ taskTitle }}</h1>
+      <div class="task-meta">
+        <span class="estimated-time">⏱️ {{ estimatedTime }}</span>
+        <span class="task-number">📝 Task {{ taskNumber }} of 3</span>
+        <span class="task-difficulty">📈 Difficulty: {{ taskDifficulty }}</span>
+      </div>
+    </header>
+
+    @if (targetImageSrc) {
+    <section class="target-design">
+      <h3>Target Design</h3>
+      <img [src]="targetImageSrc" [alt]="taskTitle + ' target design'" />
+    </section>
+    }
+
+    <section class="requirements">
+      <h3>Requirements</h3>
+      <ng-content select="[slot=requirements]"></ng-content>
+    </section>
+    <section class="success-criteria">
+      <h3>Success Criteria</h3>
+      <ng-content select="[slot=success-criteria]"></ng-content>
+    </section>
+
+    <section class="time-tracking">
+      <h3>⏰ Time Tracking (Manual)</h3>
+      <p>
+        Please note your start and end times for each implementation in the
+        feedback template.
+      </p>
+      <div class="time-tips">
+        <p><strong>Tips:</strong></p>
+        <ul>
+          <li>Work on both implementations</li>
+          <li>Focus on functionality over perfection</li>
+          <li>You can stop after 15 minutes regardless of completion</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- Right Panel: Implementation -->
+  <div class="implementation-panel">
+    <mat-tab-group animationDuration="200ms" class="implementation-tabs">
+      <mat-tab label="🎨 Angular Material">
+        <div class="tab-content">
+          <ng-content select="[slot=material-implementation]"></ng-content>
+        </div>
+      </mat-tab>
+      <mat-tab label="⚡ spade">
+        <div class="tab-content">
+          <ng-content select="[slot=spade-implementation]"></ng-content>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
