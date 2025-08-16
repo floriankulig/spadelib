@@ -18,11 +18,11 @@ This experiment compares two frontend component library approaches:
 - **Angular Material**: Traditional component library with theming
 - **spade**: Copy-paste component library with full code ownership
 
-### Tasks (45 minutes total)
+### Tasks (1 hr total)
 
-1. **Button Component** (7 min) - Add outline variant, update colors, icon support
-2. **Input Field** (10 min) - Character counter, visual feedback, validation
-3. **Dropdown** (20 min) - Search functionality, multi-select chips, performance
+1. **Button Component** (15 min) - Add outline variant, update colors, icon support
+2. **Input Field** (20 min) - Character counter, visual feedback, validation
+3. **Dropdown** (30 min) - Search functionality, multi-select chips
 
 ## Participant Instructions
 
