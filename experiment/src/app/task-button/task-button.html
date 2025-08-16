@@ -39,7 +39,10 @@
       <li>
         <strong>Icon-Only Support:</strong>
         <ul>
-          <li>Button variant that shows only an icon (+ symbol)</li>
+          <li>
+            Button variant that shows only an "+" icon (import
+            /task-button/plus-icon)
+          </li>
           <li>Proper sizing and padding</li>
           <li>1:1 aspect ratio (e.g. 40px x 40px)</li>
           <li>Accessible with aria-label</li>
@@ -61,11 +64,25 @@
 
   <!-- Material Implementation Slot -->
   <div slot="material-implementation">
-    <app-material-button></app-material-button>
+    <div class="step-group">
+      <span>For Step 1 & 2:</span>
+      <app-material-button></app-material-button>
+    </div>
+    <div class="step-group">
+      <span>For Step 3:</span>
+      <app-material-button></app-material-button>
+    </div>
   </div>
 
   <!-- spade Implementation Slot -->
   <div slot="spade-implementation">
-    <app-spade-button></app-spade-button>
+    <div class="step-group">
+      <span>For Step 1 & 2:</span>
+      <app-spade-button></app-spade-button>
+    </div>
+    <div class="step-group">
+      <span>For Step 3:</span>
+      <app-spade-button></app-spade-button>
+    </div>
   </div>
 </app-task-layout>

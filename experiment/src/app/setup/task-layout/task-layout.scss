@@ -44,3 +44,9 @@
     }
   }
 }
+
+.tab-content {
+  min-height: 600px;
+  display: grid;
+  place-items: center;
+}
