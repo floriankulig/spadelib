@@ -66,11 +66,13 @@
   <div slot="material-implementation">
     <div class="step-group">
       <span>For Step 1 & 2:</span>
-      <app-material-button></app-material-button>
+      <button mat-raised-button color="primary">Primary Button</button>
     </div>
     <div class="step-group">
       <span>For Step 3:</span>
-      <app-material-button></app-material-button>
+      <button mat-icon-button color="primary">
+        <app-plus-icon></app-plus-icon>
+      </button>
     </div>
   </div>
 
@@ -78,11 +80,13 @@
   <div slot="spade-implementation">
     <div class="step-group">
       <span>For Step 1 & 2:</span>
-      <spade-button>Outline Button</spade-button>
+      <spade-button variant="primary">Outline Button</spade-button>
     </div>
     <div class="step-group">
       <span>For Step 3:</span>
-      <spade-button><app-plus-icon></app-plus-icon></spade-button>
+      <spade-button variant="primary"
+        ><app-plus-icon></app-plus-icon
+      ></spade-button>
     </div>
   </div>
 </app-task-layout>
