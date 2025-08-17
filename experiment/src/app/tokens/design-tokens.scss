@@ -1,0 +1,84 @@
+:root {
+  // === Color Tokens ===
+  // Primary palette
+  --spade-color-primary-50: #eff6ff;
+  --spade-color-primary-100: #dbeafe;
+  --spade-color-primary-200: #bfdbfe;
+  --spade-color-primary-300: #93c5fd;
+  --spade-color-primary-400: #60a5fa;
+  --spade-color-primary-500: #3b82f6;
+  --spade-color-primary-600: #2563eb;
+  --spade-color-primary-700: #1d4ed8;
+  --spade-color-primary-800: #1e40af;
+  --spade-color-primary-900: #1e3a8a;
+
+  // Neutral palette
+  --spade-color-neutral-50: #f9fafb;
+  --spade-color-neutral-100: #f3f4f6;
+  --spade-color-neutral-200: #e5e7eb;
+  --spade-color-neutral-300: #d1d5db;
+  --spade-color-neutral-400: #9ca3af;
+  --spade-color-neutral-500: #6b7280;
+  --spade-color-neutral-600: #4b5563;
+  --spade-color-neutral-700: #374151;
+  --spade-color-neutral-800: #1f2937;
+  --spade-color-neutral-900: #111827;
+
+  // Semantic colors
+  --spade-color-error: #dc2626;
+  --spade-color-success: #16a34a;
+  --spade-color-warning: #ea580c;
+  --spade-color-info: #0891b2;
+
+  // === Typography ===
+  --spade-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --spade-font-size-xs: 0.75rem;
+  --spade-font-size-sm: 0.875rem;
+  --spade-font-size-base: 1rem;
+  --spade-font-size-lg: 1.125rem;
+  --spade-font-size-xl: 1.25rem;
+  --spade-font-weight-normal: 400;
+  --spade-font-weight-medium: 500;
+  --spade-font-weight-semibold: 600;
+  --spade-font-weight-bold: 700;
+
+  // === Spacing ===
+  --spade-spacing-0: 0;
+  --spade-spacing-1: 0.25rem;
+  --spade-spacing-2: 0.5rem;
+  --spade-spacing-3: 0.75rem;
+  --spade-spacing-4: 1rem;
+  --spade-spacing-5: 1.25rem;
+  --spade-spacing-6: 1.5rem;
+  --spade-spacing-8: 2rem;
+  --spade-spacing-10: 2.5rem;
+
+  // === Border Radius ===
+  --spade-radius-sm: 0.125rem;
+  --spade-radius-base: 0.25rem;
+  --spade-radius-md: 0.375rem;
+  --spade-radius-lg: 0.5rem;
+  --spade-radius-xl: 0.75rem;
+  --spade-radius-full: 9999px;
+
+  // === Shadows ===
+  --spade-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --spade-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --spade-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --spade-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  // === Transitions ===
+  --spade-transition-fast: 150ms ease-in-out;
+  --spade-transition-base: 200ms ease-in-out;
+  --spade-transition-slow: 300ms ease-in-out;
+
+  // === Z-Index ===
+  --spade-z-dropdown: 1000;
+  --spade-z-modal: 1050;
+  --spade-z-popover: 1100;
+  --spade-z-tooltip: 1150;
+}

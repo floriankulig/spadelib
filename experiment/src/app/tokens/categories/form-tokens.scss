@@ -1,0 +1,84 @@
+@use "../design-tokens.scss" as *;
+
+:root {
+  // === Form Category Tokens ===
+  // Semantic tokens for form components that reference global tokens
+
+  // Border & Shape
+  --spade-form-border-radius: var(--spade-radius-md);
+  --spade-form-border-width: 1px;
+  --spade-form-border-color: var(--spade-color-neutral-300);
+  --spade-form-border-color-hover: var(--spade-color-neutral-400);
+  --spade-form-border-color-focus: var(--spade-color-primary-500);
+  --spade-form-border-color-error: var(--spade-color-error);
+
+  // Background Colors
+  --spade-form-background-color: white;
+  --spade-form-background-color-disabled: var(--spade-color-neutral-50);
+  --spade-form-background-color-readonly: var(--spade-color-neutral-50);
+  --spade-form-background-color-hover: var(--spade-color-neutral-50);
+
+  // Text Colors
+  --spade-form-text-color: var(--spade-color-neutral-900);
+  --spade-form-text-color-disabled: var(--spade-color-neutral-500);
+  --spade-form-text-color-placeholder: var(--spade-color-neutral-400);
+  --spade-form-text-color-label: var(--spade-color-neutral-700);
+  --spade-form-text-color-label-focus: var(--spade-color-primary-600);
+  --spade-form-text-color-hint: var(--spade-color-neutral-600);
+  --spade-form-text-color-error: var(--spade-color-error);
+  --spade-form-text-color-required: var(--spade-color-error);
+
+  // Form Control Padding (Size Variants)
+  --spade-form-padding-sm: var(--spade-spacing-1) var(--spade-spacing-2);
+  --spade-form-padding-md: var(--spade-spacing-2) var(--spade-spacing-3);
+  --spade-form-padding-lg: var(--spade-spacing-3) var(--spade-spacing-4);
+
+  // Button-specific Form Padding (different from input padding)
+  --spade-form-button-padding-sm: var(--spade-spacing-1) var(--spade-spacing-4);
+  --spade-form-button-padding-md: var(--spade-spacing-2) var(--spade-spacing-5);
+  --spade-form-button-padding-lg: var(--spade-spacing-3) var(--spade-spacing-8);
+
+  // Min Heights for Form Controls
+  --spade-form-min-height-sm: 32px;
+  --spade-form-min-height-md: 40px;
+  --spade-form-min-height-lg: 48px;
+
+  // Typography
+  --spade-form-font-family: var(--spade-font-family);
+  --spade-form-font-size-sm: var(--spade-font-size-sm);
+  --spade-form-font-size-md: var(--spade-font-size-base);
+  --spade-form-font-size-lg: var(--spade-font-size-lg);
+  --spade-form-font-weight-normal: var(--spade-font-weight-normal);
+  --spade-form-font-weight-medium: var(--spade-font-weight-medium);
+
+  // Focus States
+  --spade-form-focus-color: var(--spade-color-primary-500);
+  --spade-form-focus-outline-width: 2px;
+  --spade-form-focus-outline-offset: 0px;
+  --spade-form-focus-outline-style: solid;
+
+  // Spacing & Layout
+  --spade-form-label-spacing: var(--spade-spacing-2);
+  --spade-form-hint-spacing: var(--spade-spacing-1);
+  --spade-form-element-gap: var(--spade-spacing-1);
+  --spade-form-required-spacing: var(--spade-spacing-1);
+
+  // Transitions
+  --spade-form-transition: var(--spade-transition-fast);
+  --spade-form-transition-all: all var(--spade-transition-fast);
+
+  // Shadows & Elevation
+  --spade-form-shadow-focus: 0 0 0 var(--spade-form-focus-outline-width)
+    var(--spade-form-focus-color);
+  --spade-form-dropdown-shadow: var(--spade-shadow-lg);
+
+  // States
+  --spade-form-opacity-disabled: 0.5;
+  --spade-form-cursor-disabled: not-allowed;
+  --spade-form-cursor-readonly: default;
+  --spade-form-cursor-interactive: pointer;
+
+  // Z-Index for Form Elements
+  --spade-form-z-dropdown: var(--spade-z-dropdown);
+  --spade-form-z-overlay: var(--spade-z-popover);
+}
