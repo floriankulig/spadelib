@@ -1,1 +1,100 @@
-<p>task-dropdown works!</p>
+<!-- ####################################### -->
+<!-- YOU SHOULD NOT NEED TO MODIFY THIS FILE -->
+<!-- YOU SHOULD NOT NEED TO MODIFY THIS FILE -->
+<!-- YOU SHOULD NOT NEED TO MODIFY THIS FILE -->
+<!-- ####################################### -->
+<app-task-layout
+  [taskNumber]="3"
+  taskTitle="Dropdown Component Enhancement"
+  estimatedTime="30 minutes"
+  taskDifficulty="hardest"
+  targetImageSrc="/assets/task-3-target.png"
+>
+  <!-- Requirements Slot -->
+  <div slot="requirements">
+    <p>
+      Your task is to enhance both Angular Material and spade dropdown
+      implementations to support advanced multi-select functionality for an
+      E-Commerce Dashboard.
+    </p>
+
+    <h4>Specific Requirements:</h4>
+    <ol>
+      <li>
+        <strong>Search Functionality:</strong>
+        <ul>
+          <li>Add live search/filter capability within dropdown panel</li>
+          <li>Search input should be at the top of the dropdown</li>
+          <li>Filter available options in real-time</li>
+          <li>Case-insensitive matching</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Multi-Select Chips:</strong>
+        <ul>
+          <li>Display selected options as removable chips</li>
+          <li>Replace comma-separated text display</li>
+          <li>Chips should appear in the input trigger area</li>
+          <li>Proper spacing</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Chip Design:</strong>
+        <ul>
+          <li>Rounded chip design</li>
+          <li>Remove button (X icon) on each chip</li>
+          <li>Hover states for chips and remove buttons</li>
+          <li>Accessible click targets</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Enhanced UX:</strong>
+        <ul>
+          <li>Search input should be focusable when dropdown opens</li>
+          <li>ESC key clears search and closes dropdown</li>
+          <li>Arrow keys navigate filtered options</li>
+          <li>Maintain keyboard accessibility</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Success Criteria Slot -->
+  <div slot="success-criteria">
+    <ul>
+      <li>✅ Search functionality filters options in real-time</li>
+      <li>✅ Selected items displayed as removable chips</li>
+      <li>✅ Chip remove functionality working</li>
+      <li>✅ Keyboard navigation preserved</li>
+      <li>✅ Performance with 50+ options</li>
+      <li>✅ Accessible focus management</li>
+    </ul>
+  </div>
+
+  <!-- Material Implementation Slot -->
+  <div slot="material-implementation">
+    <div class="dropdown-demo">
+      <mat-form-field appearance="outline">
+        <mat-label>Product Categories</mat-label>
+        <mat-select multiple>
+          <mat-option value="electronics">Electronics</mat-option>
+          <mat-option value="clothing">Clothing</mat-option>
+          <mat-option value="books">Books</mat-option>
+          <mat-option value="home">Home & Garden</mat-option>
+          <mat-option value="sports">Sports</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- spade Implementation Slot -->
+  <div slot="spade-implementation">
+    <div class="dropdown-demo">
+      <spade-dropdown
+        label="Product Categories"
+        [multiple]="true"
+        [options]="mockOptions"
+      ></spade-dropdown>
+    </div>
+  </div>
+</app-task-layout>

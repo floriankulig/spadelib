@@ -51,10 +51,21 @@
   }
 }
 
+mat-tab-group {
+  height: 100%;
+  & > div {
+    height: 100%;
+  }
+}
+
 .tab-content {
-  min-height: 600px;
+  min-height: 800px;
   display: grid;
   place-items: center;
+}
+
+::ng-deep .tab-content > div {
+  width: 500px;
 }
 
 ::ng-deep .step-group {

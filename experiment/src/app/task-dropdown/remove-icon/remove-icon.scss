@@ -1,0 +1,15 @@
+/* Remove icon specific styles */
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+svg {
+  transition: color 0.2s ease;
+}
+
+:host:hover svg {
+  color: #dc2626; /* Red color on hover */
+}
