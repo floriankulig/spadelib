@@ -3,4 +3,575 @@
 <!-- YOU SHOULD NOT NEED TO MODIFY THIS FILE -->
 <!-- YOU SHOULD NOT NEED TO MODIFY THIS FILE -->
 <!-- ####################################### -->
-<p>task-feedback works!</p>
+<div class="feedback-container">
+  <header class="feedback-header">
+    <h1>📋 Experiment Feedback</h1>
+    <p>
+      Bitte teile deine Erfahrungen aus dem Component Library Experiment mit
+      uns. Deine Eingaben sind wichtig für die Auswertung und Verbesserung
+      zukünftiger Ansätze.
+    </p>
+  </header>
+
+  <div class="feedback-form">
+    <!-- Participant Information -->
+    <section class="form-section">
+      <h2>👤 Teilnehmer-Informationen</h2>
+      <div class="input-group">
+        <label for="experience">Angular-Erfahrung:</label>
+        <select id="experience" [(ngModel)]="feedback.angularExperience">
+          <option value="">Bitte wählen...</option>
+          <option value="1-2">1-2 Jahre</option>
+          <option value="2-4">2-4 Jahre</option>
+          <option value="4-6">4-6 Jahre</option>
+          <option value="6+">6+ Jahre</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="materialExp">Angular Material Erfahrung:</label>
+        <select id="materialExp" [(ngModel)]="feedback.materialExperience">
+          <option value="">Bitte wählen...</option>
+          <option value="none">Keine</option>
+          <option value="basic">Grundlagen</option>
+          <option value="intermediate">Fortgeschritten</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Completed Tasks -->
+    <section class="form-section">
+      <h2>✅ Abgeschlossene Tasks</h2>
+      <p>Welche Tasks hast du bearbeitet? (Mehrfachauswahl möglich)</p>
+
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" [(ngModel)]="feedback.completedTasks.button" />
+          <span class="checkmark"></span>
+          Task 1: Button Component
+        </label>
+
+        <label class="checkbox-item">
+          <input type="checkbox" [(ngModel)]="feedback.completedTasks.input" />
+          <span class="checkmark"></span>
+          Task 2: Input Field
+        </label>
+
+        <label class="checkbox-item">
+          <input
+            type="checkbox"
+            [(ngModel)]="feedback.completedTasks.dropdown"
+          />
+          <span class="checkmark"></span>
+          Task 3: Dropdown
+        </label>
+      </div>
+    </section>
+
+    <!-- Time Tracking -->
+    <section class="form-section" *ngIf="hasCompletedTasks()">
+      <h2>⏱️ Zeitmessung</h2>
+      <p>Bitte trage deine gemessenen Zeiten ein (in Minuten):</p>
+
+      <!-- Button Task Times -->
+      <div class="task-times" *ngIf="feedback.completedTasks.button">
+        <h3>Button Component (Task 1)</h3>
+        <div class="time-inputs">
+          <div class="input-group">
+            <label for="buttonMaterialTime">Angular Material:</label>
+            <input
+              type="number"
+              id="buttonMaterialTime"
+              [(ngModel)]="feedback.times.button.material"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+          <div class="input-group">
+            <label for="buttonSpadeTime">spade:</label>
+            <input
+              type="number"
+              id="buttonSpadeTime"
+              [(ngModel)]="feedback.times.button.spade"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Task Times -->
+      <div class="task-times" *ngIf="feedback.completedTasks.input">
+        <h3>Input Field (Task 2)</h3>
+        <div class="time-inputs">
+          <div class="input-group">
+            <label for="inputMaterialTime">Angular Material:</label>
+            <input
+              type="number"
+              id="inputMaterialTime"
+              [(ngModel)]="feedback.times.input.material"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+          <div class="input-group">
+            <label for="inputSpadeTime">spade:</label>
+            <input
+              type="number"
+              id="inputSpadeTime"
+              [(ngModel)]="feedback.times.input.spade"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Dropdown Task Times -->
+      <div class="task-times" *ngIf="feedback.completedTasks.dropdown">
+        <h3>Dropdown (Task 3)</h3>
+        <div class="time-inputs">
+          <div class="input-group">
+            <label for="dropdownMaterialTime">Angular Material:</label>
+            <input
+              type="number"
+              id="dropdownMaterialTime"
+              [(ngModel)]="feedback.times.dropdown.material"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+          <div class="input-group">
+            <label for="dropdownSpadeTime">spade:</label>
+            <input
+              type="number"
+              id="dropdownSpadeTime"
+              [(ngModel)]="feedback.times.dropdown.spade"
+              min="0"
+              placeholder="Minuten"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Completion Status -->
+    <section class="form-section" *ngIf="hasCompletedTasks()">
+      <h2>📊 Vervollständigung</h2>
+      <p>Wie vollständig konntest du die Requirements umsetzen?</p>
+
+      <!-- Button Completion -->
+      <div class="completion-rating" *ngIf="feedback.completedTasks.button">
+        <h3>Button Component</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="button-material-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.button.material"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="button-spade-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.button.spade"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Completion -->
+      <div class="completion-rating" *ngIf="feedback.completedTasks.input">
+        <h3>Input Field</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="input-material-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.input.material"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="input-spade-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.input.spade"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Dropdown Completion -->
+      <div class="completion-rating" *ngIf="feedback.completedTasks.dropdown">
+        <h3>Dropdown</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="dropdown-material-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.dropdown.material"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [0, 25, 50, 75, 100]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="dropdown-spade-completion"
+                [value]="rating"
+                [(ngModel)]="feedback.completion.dropdown.spade"
+              />
+              <span>{{ rating }}%</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Difficulty Assessment -->
+    <section class="form-section" *ngIf="hasCompletedTasks()">
+      <h2>📈 Schwierigkeit</h2>
+      <p>
+        Wie schwierig empfandest du die Implementierung? (1 = sehr einfach, 5 =
+        sehr schwer)
+      </p>
+
+      <!-- Button Difficulty -->
+      <div class="difficulty-rating" *ngIf="feedback.completedTasks.button">
+        <h3>Button Component</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="button-material-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.button.material"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="button-spade-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.button.spade"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Difficulty -->
+      <div class="difficulty-rating" *ngIf="feedback.completedTasks.input">
+        <h3>Input Field</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="input-material-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.input.material"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="input-spade-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.input.spade"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Dropdown Difficulty -->
+      <div class="difficulty-rating" *ngIf="feedback.completedTasks.dropdown">
+        <h3>Dropdown</h3>
+        <div class="rating-group">
+          <label>Angular Material:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="dropdown-material-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.dropdown.material"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+        <div class="rating-group">
+          <label>spade:</label>
+          <div class="rating-scale">
+            @for (rating of [1, 2, 3, 4, 5]; track rating) {
+            <label class="rating-item">
+              <input
+                type="radio"
+                name="dropdown-spade-difficulty"
+                [value]="rating"
+                [(ngModel)]="feedback.difficulty.dropdown.spade"
+              />
+              <span>{{ rating }}</span>
+            </label>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Qualitative Feedback -->
+    <section class="form-section">
+      <h2>💭 Qualitative Bewertung</h2>
+
+      <div class="input-group">
+        <label for="mostChallenging"
+          >Was war die größte Herausforderung bei der Implementierung?</label
+        >
+        <textarea
+          id="mostChallenging"
+          [(ngModel)]="feedback.qualitative.mostChallenging"
+          rows="3"
+          placeholder="Beschreibe spezifische Probleme oder Hindernisse..."
+        ></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="easiestAspect"
+          >Was funktionierte am besten/war am einfachsten?</label
+        >
+        <textarea
+          id="easiestAspect"
+          [(ngModel)]="feedback.qualitative.easiestAspect"
+          rows="3"
+          placeholder="Welche Aspekte liefen reibungslos..."
+        ></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="materialFrustrations"
+          >Spezifische Frustrationen mit Angular Material:</label
+        >
+        <textarea
+          id="materialFrustrations"
+          [(ngModel)]="feedback.qualitative.materialFrustrations"
+          rows="3"
+          placeholder="CSS-Overrides, Breaking Changes, Dokumentation, etc..."
+        ></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="spadeFrustrations"
+          >Spezifische Frustrationen mit spade:</label
+        >
+        <textarea
+          id="spadeFrustrations"
+          [(ngModel)]="feedback.qualitative.spadeFrustrations"
+          rows="3"
+          placeholder="Code-Komplexität, fehlende Features, Dokumentation, etc..."
+        ></textarea>
+      </div>
+    </section>
+
+    <!-- Preferences -->
+    <section class="form-section">
+      <h2>🎯 Präferenzen</h2>
+
+      <div class="input-group">
+        <label for="preferredApproach"
+          >Welchen Ansatz würdest du für ein echtes Projekt wählen?</label
+        >
+        <select
+          id="preferredApproach"
+          [(ngModel)]="feedback.preferences.preferredApproach"
+        >
+          <option value="">Bitte wählen...</option>
+          <option value="material">Angular Material</option>
+          <option value="spade">spade</option>
+          <option value="depends">Kommt darauf an</option>
+          <option value="neither">Keiner von beiden</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="reasoning">Begründung für deine Wahl:</label>
+        <textarea
+          id="reasoning"
+          [(ngModel)]="feedback.preferences.reasoning"
+          rows="4"
+          placeholder="Erkläre deine Entscheidung..."
+        ></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="intuitive">Welcher Ansatz fühlte sich intuitiver an?</label>
+        <select id="intuitive" [(ngModel)]="feedback.preferences.moreIntuitive">
+          <option value="">Bitte wählen...</option>
+          <option value="material">Angular Material</option>
+          <option value="spade">spade</option>
+          <option value="equal">Etwa gleich</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Improvements -->
+    <section class="form-section">
+      <h2>🔧 Verbesserungsvorschläge</h2>
+
+      <div class="input-group">
+        <label for="materialImprovements"
+          >Wie könnte Angular Material für Projekt-Business verbessert
+          werden?</label
+        >
+        <textarea
+          id="materialImprovements"
+          [(ngModel)]="feedback.improvements.material"
+          rows="3"
+          placeholder="Konkrete Vorschläge für Angular Material..."
+        ></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="spadeImprovements"
+          >Wie könnte spade verbessert werden?</label
+        >
+        <textarea
+          id="spadeImprovements"
+          [(ngModel)]="feedback.improvements.spade"
+          rows="3"
+          placeholder="Konkrete Vorschläge für spade..."
+        ></textarea>
+      </div>
+    </section>
+
+    <!-- Additional Comments -->
+    <section class="form-section">
+      <h2>📝 Zusätzliche Kommentare</h2>
+
+      <div class="input-group">
+        <label for="additionalComments"
+          >Weitere Anmerkungen zum Experiment:</label
+        >
+        <textarea
+          id="additionalComments"
+          [(ngModel)]="feedback.additionalComments"
+          rows="4"
+          placeholder="Feedback zum Experiment-Setup, fehlende Aspekte, allgemeine Gedanken..."
+        ></textarea>
+      </div>
+    </section>
+
+    <!-- Submit Section -->
+    <section class="submit-section">
+      <div class="export-options">
+        <h3>📤 Feedback speichern</h3>
+        <p>Speichere dein Feedback als JSON-Datei im Projekt:</p>
+        <div class="export-buttons">
+          <button type="button" class="export-btn" (click)="exportFeedback()">
+            📋 JSON herunterladen
+          </button>
+          <button type="button" class="export-btn" (click)="copyToClipboard()">
+            📋 In Zwischenablage kopieren
+          </button>
+        </div>
+      </div>
+
+      <div class="submit-info">
+        <h3>📦 Projekt übermitteln</h3>
+        <ol>
+          <li>
+            <strong>Feedback speichern:</strong> Klicke auf "In Projekt
+            speichern"
+          </li>
+          <li>
+            <strong>Projekt zippen:</strong> Erstelle ZIP-Archiv des gesamten
+            Projektordners (ohne <code>node_modules</code>)
+          </li>
+          <li>
+            <strong>Übermittlung:</strong> Sende das ZIP an
+            <strong>florian.kulig@capgemini.com</strong> (Teams oder E-Mail)
+          </li>
+        </ol>
+        <p class="privacy-note">
+          <em
+            >Deine Daten werden ausschließlich für die Bachelorarbeit verwendet
+            und nicht an Dritte weitergegeben.</em
+          >
+        </p>
+      </div>
+    </section>
+  </div>
+</div>

@@ -3,3 +3,404 @@
 // YOU SHOULD NOT NEED TO MODIFY THIS FILE
 // YOU SHOULD NOT NEED TO MODIFY THIS FILE
 // #######################################
+.feedback-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+  line-height: 1.6;
+
+  .feedback-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    border-radius: 12px;
+
+    h1 {
+      margin: 0 0 15px 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+  }
+
+  .feedback-form {
+    .form-section {
+      margin-bottom: 35px;
+      padding: 25px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+
+      h2 {
+        color: #2d3748;
+        border-bottom: 2px solid #4299e1;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        margin-top: 0;
+      }
+
+      h3 {
+        color: #4a5568;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        margin-top: 20px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      p {
+        color: #718096;
+        margin-bottom: 20px;
+      }
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 0.95rem;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: #4299e1;
+          box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        &::placeholder {
+          color: #a0aec0;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+      }
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #cbd5e0;
+          background-color: #f7fafc;
+        }
+
+        input[type="checkbox"] {
+          display: none;
+        }
+
+        .checkmark {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #4299e1;
+          border-radius: 4px;
+          margin-right: 12px;
+          position: relative;
+          transition: all 0.2s ease;
+
+          &::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+          }
+        }
+
+        input[type="checkbox"]:checked + .checkmark {
+          background-color: #4299e1;
+
+          &::after {
+            opacity: 1;
+          }
+        }
+
+        &:has(input:checked) {
+          border-color: #4299e1;
+          background-color: #ebf8ff;
+        }
+      }
+    }
+
+    .task-times {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f7fafc;
+      border-radius: 8px;
+      border-left: 4px solid #4299e1;
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #2d3748;
+      }
+
+      .time-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+
+        .input-group {
+          margin-bottom: 0;
+
+          label {
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+          }
+
+          input {
+            padding: 10px;
+          }
+        }
+      }
+    }
+
+    .completion-rating,
+    .difficulty-rating {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f7fafc;
+      border-radius: 8px;
+      border-left: 4px solid #48bb78;
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #2d3748;
+      }
+
+      .rating-group {
+        margin-bottom: 15px;
+
+        > label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: 500;
+          color: #4a5568;
+          font-size: 0.9rem;
+        }
+
+        .rating-scale {
+          display: flex;
+          gap: 15px;
+
+          .rating-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+
+            input[type="radio"] {
+              display: none;
+            }
+
+            span {
+              padding: 8px 12px;
+              border: 2px solid #e2e8f0;
+              border-radius: 6px;
+              background: white;
+              transition: all 0.2s ease;
+              font-weight: 500;
+              min-width: 45px;
+              text-align: center;
+            }
+
+            input:checked + span {
+              border-color: #4299e1;
+              background-color: #4299e1;
+              color: white;
+            }
+
+            &:hover span {
+              border-color: #cbd5e0;
+            }
+          }
+        }
+      }
+    }
+
+    .submit-section {
+      margin-top: 40px;
+      padding: 30px;
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      color: white;
+      border-radius: 12px;
+
+      .export-options {
+        margin-bottom: 30px;
+
+        h3 {
+          color: white;
+          margin-bottom: 10px;
+          margin-top: 0;
+        }
+
+        p {
+          margin-bottom: 15px;
+          opacity: 0.9;
+        }
+
+        .export-buttons {
+          display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
+
+          .export-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.3);
+              border-color: rgba(255, 255, 255, 0.5);
+            }
+
+            &:active {
+              transform: translateY(1px);
+            }
+          }
+        }
+      }
+
+      .submit-info {
+        h3 {
+          color: white;
+          margin-bottom: 10px;
+          margin-top: 0;
+        }
+
+        p {
+          margin-bottom: 10px;
+          opacity: 0.9;
+
+          strong {
+            color: #f0fff4;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+          }
+        }
+
+        .privacy-note {
+          font-size: 0.9rem;
+          opacity: 0.8;
+          font-style: italic;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .feedback-container {
+    padding: 15px;
+
+    .feedback-header {
+      padding: 20px;
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .form-section {
+      padding: 20px;
+    }
+
+    .time-inputs {
+      grid-template-columns: 1fr !important;
+      gap: 15px !important;
+    }
+
+    .rating-scale {
+      flex-wrap: wrap;
+      gap: 10px !important;
+
+      .rating-item span {
+        padding: 6px 10px;
+        min-width: 40px;
+      }
+    }
+
+    .export-buttons {
+      flex-direction: column;
+
+      .export-btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Animation for form sections
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section {
+  animation: slideIn 0.3s ease-out;
+}
