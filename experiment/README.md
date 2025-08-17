@@ -1,6 +1,6 @@
-# Component Libraries Development Experiment
+# ♠️ Component Libraries Development Experiment
 
-> Comparing Angular Material vs. spade for component customization efficiency
+> Comparative Study: Angular Material vs. Spade for component customization efficiency
 
 ## Quick Start
 
@@ -13,108 +13,184 @@ Open http://localhost:4200 and follow the instructions.
 
 ## Experiment Overview
 
-This experiment compares two frontend component library approaches:
+This experiment compares two frontend component library approaches for typical customization tasks in consulting environments:
 
-- **Angular Material**: Traditional component library with theming
-- **spade**: Copy-paste component library with full code ownership
+- **Angular Material**: Traditional component library with theming system
+- **Spade**: Copy-paste component library with full code ownership
 
-### Tasks (~1 hr total)
+### Experiment Structure (~45-60 minutes total)
 
-1. **Button Component** (15 min) - Add outline variant, update colors, icon support
-2. **Input Field** (20 min) - Character counter, visual feedback, validation
-3. **Dropdown** (30 min) - Search functionality, multi-select chips
+The experiment consists of **3 tasks** that you can complete in any order:
+
+1. **Button Component** (~15 min) - New variant, color changes, icon support
+2. **Input Field** (~20 min) - Character counter, visual feedback, validation
+3. **Dropdown** (~25 min) - Search functionality, multi-select with chips
 
 ## Participant Instructions
 
-### 1. Setup (5 minutes)
+### 1. Setup (2-3 minutes)
 
 - Ensure `ng serve` is running
-- Open your preferred IDE
-- Download feedback templates from `/assets/templates/`
+- Open your preferred IDE (VS Code recommended)
+- Prepare a document for time tracking
 
 ### 2. Experiment Flow
 
-1. Read instructions at `/instructions`
-2. Complete Task 1 at `/task-button`
-3. Complete Task 2 at `/task-input`
-4. Complete Task 3 at `/task-dropdown`
-5. Fill feedback form at `/feedback`
+1. **Read instructions** → Navigate to `/instructions`
+2. **Choose a task** → Start with any task you prefer
+3. **Both implementations** → Work on both Material and Spade approaches
+4. **Document time** → Note start/end times for each implementation
+5. **Provide feedback** → Complete `/feedback` at the end
 
 ### 3. Important Guidelines
 
-- **Time Tracking**: Note start/end times manually
-- **Both Implementations**: Work on Material AND spade for each task
-- **Focus on Functionality**: Don't worry about pixel-perfect design
-- **Stop After Time Limit**: Incomplete solutions are okay
+- **Time tracking**: Document start/end times manually per implementation
+- **Both approaches**: Work on each task using both Material and Spade
+- **Functionality over perfection**: Pixel-perfect design is not required
+- **Respect time limits**: Incomplete solutions are acceptable
+- **Use tab system**: Switch between "🎨 Angular Material" and "⚡ Spade" tabs
 
-### 4. Data Collection
+### 4. What to Document
 
-Please track:
+**Quantitative Data:**
 
-- Time spent on each implementation
-- Subjective difficulty (1-5 scale)
+- Implementation time per approach
+- Number of files changed
+- Difficulty rating (1-5 scale)
+
+**Qualitative Insights:**
+
 - Specific challenges encountered
-- Overall preferences and reasoning
+- Developer experience differences
+- Preferences and reasoning
 
-## Technical Setup
+## Task Details
 
-### Dependencies
+### Task 1: Button Component Adaptation
 
-- Angular 20+
-- Angular Material
-- Angular CDK
-- spade Components (copied from main library)
+**Goal**: Adapt to corporate design for automotive client
+
+- Change primary color (#1E3A8A)
+- Implement new "outline" variant
+- Icon-only button with accessibility
+
+### Task 2: Input Field Enhancement
+
+**Goal**: Enhanced input validation for forms
+
+- Character counter with limit display
+- Visual feedback for validation status
+- Error/success states
+
+### Task 3: Dropdown Enhancement
+
+**Goal**: Extended selection capabilities
+
+- Live search functionality
+- Multi-select with chip display
+- Keyboard navigation
+
+## Technical Architecture
 
 ### Project Structure
 
 ```
 src/app/
-├── instructions/           # Experiment instructions
-├── task-button/           # Task 1: Button customization
-├── task-input/            # Task 2: Input enhancement
-├── task-dropdown/         # Task 3: Dropdown features
-├── feedback/              # Qualitative feedback form
-└── shared/
-    └── task-layout/       # Side-by-side layout component
+├── setup/
+│   ├── instructions/          # Experiment instructions
+│   ├── task-layout/          # Side-by-side layout component
+│   └── task-feedback/        # Feedback form
+├── task-button/              # Task 1: Button customizations
+├── task-input/               # Task 2: Input enhancements
+├── task-dropdown/            # Task 3: Dropdown features
+├── tokens/                   # Design token system
+│   ├── design-tokens.scss   # Global tokens
+│   └── categories/          # Categorized tokens
+└── styles/                  # Base styles & utilities
 ```
 
-### Components Location
+### Spade Components
 
-- **Angular Material**: Each task has a `material-*` component
-- **spade**: Components copied to `src/lib/components/`
+Spade components are already available in the codebase:
 
-## For Researchers
+- **Location**: `src/app/components/spade-*/`
+- **Fully customizable**: Direct access to HTML, SCSS, TypeScript
+- **Design token system**: CSS custom properties for consistent theming
+- **Accessibility-first**: WCAG 2.1 AA compliant implementation
 
-### Data Analysis
+### Angular Material
 
-Participants will provide:
+Material components are used via standard Angular Material imports:
 
-- Time measurements (Excel/CSV)
-- Qualitative feedback (Markdown)
-- Code snapshots (modified project)
+- **Theming**: Customizations via `styles.scss` and task-specific SCSS files
+- **Overrides**: CSS overrides for design adaptations
+- **Components**: Standard Material components (MatButton, MatInput, etc.)
 
-### Success Metrics
+## Implementation Guidelines
 
-- **Quantitative**: Implementation time, lines of code, completion rate
-- **Qualitative**: Subjective difficulty, developer preferences, pain points
+### For Spade Components:
 
-### Experiment Validity
+- **Direct editing**: Modify files in `./spade-*/` folders
+- **Design tokens**: Use CSS custom properties from `design-tokens.scss`
+- **Component structure**: HTML, SCSS, and TypeScript are fully accessible
 
-- Identical requirements for both approaches
-- Standardized environment (same Angular version, setup)
-- Controlled baseline implementations
-- Clear time constraints
+### For Angular Material:
+
+- **Theme customizations**: Use `styles.scss` for global changes
+- **CSS overrides**: Task-specific SCSS files for local adaptations
+- **Material theming**: Work with Angular Material's theming API
+
+## Technical Requirements
+
+- **Angular**: 20+
+- **Node.js**: 18+
+- **Angular CLI**: 20+
+- **Browser**: Modern browsers (Chrome, Firefox, Safari, Edge)
 
 ## Support
 
-If you encounter technical issues:
+For technical issues:
 
-1. Check that `ng serve` is running without errors
+1. Check that `ng serve` runs without errors
 2. Verify all dependencies are installed (`npm install`)
-3. Ensure you're using Node.js 18+ and Angular CLI 20+
+3. Check browser console for errors
+4. Restart dev server if necessary
 
-For experiment questions, refer to the instructions page or contact the research team.
+For experiment questions, contact the research team or use the `/instructions` page.
+
+## For Researchers
+
+### Data Collection
+
+Participants will provide:
+
+- **Time metrics**: Implementation time per approach and task
+- **Qualitative feedback**: Markdown-based responses
+- **Code snapshots**: Modified project as zip export
+
+### Success Metrics
+
+**Quantitative:**
+
+- Implementation time (minutes)
+- Lines of code changed
+- Completion rate (%)
+- Error rate
+
+**Qualitative:**
+
+- Subjective difficulty (1-5)
+- Developer experience rating
+- Preferences with reasoning
+- Identified pain points
+
+### Experiment Validity
+
+- **Identical requirements** for both approaches
+- **Standardized environment** (same Angular version, setup)
+- **Controlled baseline** with pre-built components
+- **Clear time boundaries** per task
 
 ---
 
-**Research Context**: This experiment is part of a bachelor thesis investigating optimal component library architectures for project business in consulting environments.
+**Research Context**: This experiment is part of a bachelor thesis investigating optimal component library architectures for project business in consulting environments at Capgemini.
