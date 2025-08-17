@@ -8,7 +8,7 @@
   taskTitle="Button Component Adaptation"
   estimatedTime="15 minutes"
   taskDifficulty="easiest"
-  targetImageSrc="/assets/task-1-target.png"
+  targetImageSrc="task-1-target.png"
 >
   <!-- Requirements Slot -->
   <div slot="requirements">
@@ -23,17 +23,21 @@
       <li>
         <strong>Primary Color Update:</strong>
         <ul>
-          <li>Change primary color from default to #1E3A8A (dark blue)</li>
+          <li>
+            Change primary color from default to #207235 (dark green, found in
+            tokens/design-tokens.scss)
+          </li>
           <li>Apply to all existing button variants</li>
         </ul>
       </li>
       <li>
         <strong>Outline Variant:</strong>
         <ul>
-          <li>Transparent background</li>
+          <li>White background</li>
           <li>Colored border (2px solid)</li>
           <li>Colored text matching border</li>
           <li>Hover state with subtle background fill</li>
+          <li>Active state with subtle background fill (darker than hover)</li>
         </ul>
       </li>
       <li>
