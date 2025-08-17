@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { TaskLayout } from '../setup/task-layout/task-layout';
 import { PlusIcon } from './plus-icon/plus-icon';
-import { SpadeButton } from './spade-button/spade-button.component';
+import { SpadeButton } from '../components/spade-button/spade-button.component';
 
 @Component({
   selector: 'app-task-button',
