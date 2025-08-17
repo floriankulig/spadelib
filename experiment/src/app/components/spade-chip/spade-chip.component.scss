@@ -1,0 +1,289 @@
+@use "../../styles/base.scss" as *;
+
+// Component-specific tokens (will be flattened by CLI)
+:host {
+  // Chip-specific tokens referencing form category tokens
+  --spade-chip-font-family: var(--spade-form-font-family);
+  --spade-chip-font-weight: var(--spade-form-font-weight-medium);
+  --spade-chip-border-radius: var(--spade-radius-full);
+  --spade-chip-border-width: var(--spade-form-border-width);
+  --spade-chip-transition: var(--spade-form-transition-all);
+  --spade-chip-cursor: var(--spade-form-cursor-interactive);
+  --spade-chip-gap: var(--spade-spacing-1);
+
+  // Chip size variants
+  --spade-chip-padding-sm: var(--spade-spacing-1) var(--spade-spacing-2);
+  --spade-chip-font-size-sm: var(--spade-font-size-xs);
+  --spade-chip-min-height-sm: 20px;
+}
+
+.spade-chip {
+  // Base styles
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spade-chip-gap);
+  font-family: var(--spade-chip-font-family);
+  font-weight: var(--spade-chip-font-weight);
+  border-radius: var(--spade-chip-border-radius);
+  transition: var(--spade-chip-transition);
+  cursor: var(--spade-chip-cursor);
+  border: var(--spade-chip-border-width) solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  vertical-align: middle;
+
+  // Focus styles
+  &:focus-visible {
+    @extend .spade-focus-visible;
+  }
+
+  // Size variants
+  &--sm {
+    padding: var(--spade-chip-padding-sm);
+    font-size: var(--spade-chip-font-size-sm);
+    min-height: var(--spade-chip-min-height-sm);
+
+    .spade-chip__remove {
+      width: 14px;
+      height: 14px;
+      margin-left: var(--spade-spacing-1);
+    }
+  }
+
+  &--md {
+    padding: var(--spade-spacing-2) var(--spade-spacing-3);
+    font-size: var(--spade-font-size-sm);
+    min-height: 24px;
+
+    .spade-chip__remove {
+      width: 16px;
+      height: 16px;
+      margin-left: var(--spade-spacing-1);
+    }
+  }
+
+  &--lg {
+    padding: var(--spade-spacing-2) var(--spade-spacing-4);
+    font-size: var(--spade-font-size-base);
+    min-height: 32px;
+
+    .spade-chip__remove {
+      width: 18px;
+      height: 18px;
+      margin-left: var(--spade-spacing-2);
+    }
+  }
+
+  // Variant styles
+  &--primary {
+    background-color: var(--spade-color-primary-100);
+    color: var(--spade-color-primary-800);
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: var(--spade-color-primary-200);
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-primary-600);
+      color: white;
+
+      &:hover {
+        background-color: var(--spade-color-primary-700);
+      }
+    }
+
+    .spade-chip__remove:hover {
+      background-color: var(--spade-color-primary-300);
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--secondary {
+    background-color: var(--spade-color-neutral-100);
+    color: var(--spade-color-neutral-800);
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: var(--spade-color-neutral-200);
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-neutral-700);
+      color: white;
+
+      &:hover {
+        background-color: var(--spade-color-neutral-800);
+      }
+    }
+
+    .spade-chip__remove:hover {
+      background-color: var(--spade-color-neutral-300);
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--neutral {
+    background-color: var(--spade-color-neutral-50);
+    color: var(--spade-color-neutral-700);
+    border-color: var(--spade-color-neutral-300);
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: var(--spade-color-neutral-100);
+      border-color: var(--spade-color-neutral-400);
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-neutral-900);
+      border-color: var(--spade-color-neutral-900);
+      color: white;
+    }
+
+    .spade-chip__remove:hover {
+      background-color: var(--spade-color-neutral-200);
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--success {
+    background-color: #dcfce7;
+    color: #166534;
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: #bbf7d0;
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-success);
+      color: white;
+
+      &:hover {
+        background-color: #15803d;
+      }
+    }
+
+    .spade-chip__remove:hover {
+      background-color: #a7f3d0;
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--warning {
+    background-color: #fed7aa;
+    color: #9a3412;
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: #fdba74;
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-warning);
+      color: white;
+
+      &:hover {
+        background-color: #c2410c;
+      }
+    }
+
+    .spade-chip__remove:hover {
+      background-color: #fb923c;
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--error {
+    background-color: #fecaca;
+    color: #991b1b;
+
+    &:hover:not(.spade-chip--disabled) {
+      background-color: #fca5a5;
+    }
+
+    &.spade-chip--selected {
+      background-color: var(--spade-color-error);
+      color: white;
+
+      &:hover {
+        background-color: #b91c1c;
+      }
+    }
+
+    .spade-chip__remove:hover {
+      background-color: #f87171;
+    }
+
+    &.spade-chip--selected .spade-chip__remove:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  // States
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: inherit !important;
+      border-color: inherit !important;
+    }
+
+    .spade-chip__remove {
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  // Elements
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0; // Allow text truncation
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--spade-radius-full);
+    cursor: pointer;
+    transition: background-color var(--spade-transition-fast);
+    flex-shrink: 0;
+
+    &:focus-visible {
+      @extend .spade-focus-visible;
+    }
+
+    &-icon {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  }
+
+  // Removable variant adjustments
+  &--removable {
+    padding-right: var(--spade-spacing-1);
+  }
+}

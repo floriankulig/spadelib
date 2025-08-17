@@ -1,0 +1,182 @@
+@use "../../styles/base.scss" as *;
+
+// Component-specific tokens (will be flattened by CLI)
+:host {
+  // Input-specific tokens referencing form category tokens
+  --spade-input-font-family: var(--spade-form-font-family);
+  --spade-input-border-radius: var(--spade-form-border-radius);
+  --spade-input-border-width: var(--spade-form-border-width);
+  --spade-input-transition: var(--spade-form-transition-all);
+
+  // Input wrapper styles
+  --spade-input-wrapper-border-color: var(--spade-form-border-color);
+  --spade-input-wrapper-border-color-hover: var(
+    --spade-form-border-color-hover
+  );
+  --spade-input-wrapper-border-color-focus: var(
+    --spade-form-border-color-focus
+  );
+  --spade-input-wrapper-border-color-error: var(
+    --spade-form-border-color-error
+  );
+  --spade-input-wrapper-background: var(--spade-form-background-color);
+  --spade-input-wrapper-background-disabled: var(
+    --spade-form-background-color-disabled
+  );
+  --spade-input-wrapper-background-readonly: var(
+    --spade-form-background-color-readonly
+  );
+  --spade-input-wrapper-gap: var(--spade-form-element-gap);
+
+  // Input field colors
+  --spade-input-text-color: var(--spade-form-text-color);
+  --spade-input-text-color-disabled: var(--spade-form-text-color-disabled);
+  --spade-input-placeholder-color: var(--spade-form-text-color-placeholder);
+
+  // Input size variants
+  --spade-input-padding-sm: var(--spade-form-padding-sm);
+  --spade-input-padding-md: var(--spade-form-padding-md);
+  --spade-input-padding-lg: var(--spade-form-padding-lg);
+  --spade-input-font-size-sm: var(--spade-form-font-size-sm);
+  --spade-input-font-size-md: var(--spade-form-font-size-md);
+  --spade-input-font-size-lg: var(--spade-form-font-size-lg);
+  --spade-input-min-height-sm: var(--spade-form-min-height-sm);
+  --spade-input-min-height-md: var(--spade-form-min-height-md);
+  --spade-input-min-height-lg: var(--spade-form-min-height-lg);
+
+  // Input label styles
+  --spade-input-label-color: var(--spade-form-text-color-label);
+  --spade-input-label-color-focus: var(--spade-form-text-color-label-focus);
+  --spade-input-label-font-size: var(--spade-form-font-size-sm);
+  --spade-input-label-font-weight: var(--spade-form-font-weight-medium);
+  --spade-input-label-spacing: var(--spade-form-label-spacing);
+  --spade-input-label-transition: color var(--spade-form-transition);
+
+  // Input required indicator
+  --spade-input-required-color: var(--spade-form-text-color-required);
+  --spade-input-required-spacing: var(--spade-form-required-spacing);
+
+  // Input hint and error text
+  --spade-input-hint-color: var(--spade-form-text-color-hint);
+  --spade-input-error-color: var(--spade-form-text-color-error);
+  --spade-input-hint-font-size: var(--spade-form-font-size-sm);
+  --spade-input-hint-spacing: var(--spade-form-hint-spacing);
+
+  // Input states
+  --spade-input-cursor-disabled: var(--spade-form-cursor-disabled);
+}
+
+.spade-input {
+  display: block;
+  width: 100%;
+  font-family: var(--spade-input-font-family);
+
+  &--focused {
+    .spade-input__label {
+      color: var(--spade-input-label-color-focus);
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: var(--spade-input-label-spacing);
+    font-size: var(--spade-input-label-font-size);
+    font-weight: var(--spade-input-label-font-weight);
+    color: var(--spade-input-label-color);
+    transition: var(--spade-input-label-transition);
+  }
+
+  &__required {
+    color: var(--spade-input-required-color);
+    margin-left: var(--spade-input-required-spacing);
+  }
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spade-input-wrapper-gap);
+    font-family: inherit;
+    border: var(--spade-input-border-width) solid
+      var(--spade-input-wrapper-border-color);
+    border-radius: var(--spade-input-border-radius);
+    background-color: var(--spade-input-wrapper-background);
+    color: var(--spade-input-text-color);
+    transition: var(--spade-input-transition);
+
+    // Size variants
+    &--sm {
+      padding: var(--spade-input-padding-sm);
+      font-size: var(--spade-input-font-size-sm);
+      min-height: var(--spade-input-min-height-sm);
+    }
+
+    &--md {
+      padding: var(--spade-input-padding-md);
+      font-size: var(--spade-input-font-size-md);
+      min-height: var(--spade-input-min-height-md);
+    }
+
+    &--lg {
+      padding: var(--spade-input-padding-lg);
+      font-size: var(--spade-input-font-size-lg);
+      min-height: var(--spade-input-min-height-lg);
+    }
+
+    // States
+    &--error {
+      border-color: var(--spade-input-wrapper-border-color-error);
+
+      &:focus {
+        outline-color: var(--spade-input-wrapper-border-color-error);
+      }
+    }
+
+    &--disabled {
+      background-color: var(--spade-input-wrapper-background-disabled);
+      color: var(--spade-input-text-color-disabled);
+      cursor: var(--spade-input-cursor-disabled);
+    }
+
+    &--readonly {
+      background-color: var(--spade-input-wrapper-background-readonly);
+    }
+
+    &:focus-within {
+      @extend .spade-focus-visible;
+      border-color: var(--spade-input-wrapper-border-color-focus);
+    }
+  }
+
+  &__field {
+    height: 100%;
+    width: 100%;
+    font: inherit;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+
+    &::placeholder {
+      color: var(--spade-input-placeholder-color);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__hint,
+  &__error {
+    display: block;
+    margin-top: var(--spade-input-hint-spacing);
+    font-size: var(--spade-input-hint-font-size);
+  }
+
+  &__hint {
+    color: var(--spade-input-hint-color);
+  }
+
+  &__error {
+    color: var(--spade-input-error-color);
+  }
+}
