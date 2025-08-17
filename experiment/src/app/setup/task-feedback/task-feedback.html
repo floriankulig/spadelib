@@ -7,34 +7,34 @@
   <header class="feedback-header">
     <h1>📋 Experiment Feedback</h1>
     <p>
-      Bitte teile deine Erfahrungen aus dem Component Library Experiment mit
-      uns. Deine Eingaben sind wichtig für die Auswertung und Verbesserung
-      zukünftiger Ansätze.
+      Please share your experiences from the component library experiment with
+      us. Your input is important for the evaluation and improvement of future
+      approaches.
     </p>
   </header>
 
   <div class="feedback-form">
     <!-- Participant Information -->
     <section class="form-section">
-      <h2>👤 Teilnehmer-Informationen</h2>
+      <h2>👤 Participant Information</h2>
       <div class="input-group">
-        <label for="experience">Angular-Erfahrung:</label>
+        <label for="experience">Angular Experience:</label>
         <select id="experience" [(ngModel)]="feedback.angularExperience">
-          <option value="">Bitte wählen...</option>
-          <option value="1-2">1-2 Jahre</option>
-          <option value="2-4">2-4 Jahre</option>
-          <option value="4-6">4-6 Jahre</option>
-          <option value="6+">6+ Jahre</option>
+          <option value="">Please select...</option>
+          <option value="1-2">1-2 years</option>
+          <option value="2-4">2-4 years</option>
+          <option value="4-6">4-6 years</option>
+          <option value="6+">6+ years</option>
         </select>
       </div>
 
       <div class="input-group">
-        <label for="materialExp">Angular Material Erfahrung:</label>
+        <label for="materialExp">Angular Material Experience:</label>
         <select id="materialExp" [(ngModel)]="feedback.materialExperience">
-          <option value="">Bitte wählen...</option>
-          <option value="none">Keine</option>
-          <option value="basic">Grundlagen</option>
-          <option value="intermediate">Fortgeschritten</option>
+          <option value="">Please select...</option>
+          <option value="none">None</option>
+          <option value="basic">Basic</option>
+          <option value="intermediate">Intermediate</option>
           <option value="expert">Expert</option>
         </select>
       </div>
@@ -42,8 +42,8 @@
 
     <!-- Completed Tasks -->
     <section class="form-section">
-      <h2>✅ Abgeschlossene Tasks</h2>
-      <p>Welche Tasks hast du bearbeitet? (Mehrfachauswahl möglich)</p>
+      <h2>✅ Completed Tasks</h2>
+      <p>Which tasks did you work on? (Multiple selection possible)</p>
 
       <div class="checkbox-group">
         <label class="checkbox-item">
@@ -71,8 +71,8 @@
 
     <!-- Time Tracking -->
     <section class="form-section" *ngIf="hasCompletedTasks()">
-      <h2>⏱️ Zeitmessung</h2>
-      <p>Bitte trage deine gemessenen Zeiten ein (in Minuten):</p>
+      <h2>⏱️ Time Tracking</h2>
+      <p>Please enter your measured times (in minutes):</p>
 
       <!-- Button Task Times -->
       <div class="task-times" *ngIf="feedback.completedTasks.button">
@@ -85,7 +85,7 @@
               id="buttonMaterialTime"
               [(ngModel)]="feedback.times.button.material"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
           <div class="input-group">
@@ -95,7 +95,7 @@
               id="buttonSpadeTime"
               [(ngModel)]="feedback.times.button.spade"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
         </div>
@@ -112,7 +112,7 @@
               id="inputMaterialTime"
               [(ngModel)]="feedback.times.input.material"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
           <div class="input-group">
@@ -122,7 +122,7 @@
               id="inputSpadeTime"
               [(ngModel)]="feedback.times.input.spade"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
         </div>
@@ -139,7 +139,7 @@
               id="dropdownMaterialTime"
               [(ngModel)]="feedback.times.dropdown.material"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
           <div class="input-group">
@@ -149,7 +149,7 @@
               id="dropdownSpadeTime"
               [(ngModel)]="feedback.times.dropdown.spade"
               min="0"
-              placeholder="Minuten"
+              placeholder="Minutes"
             />
           </div>
         </div>
@@ -158,8 +158,8 @@
 
     <!-- Completion Status -->
     <section class="form-section" *ngIf="hasCompletedTasks()">
-      <h2>📊 Vervollständigung</h2>
-      <p>Wie vollständig konntest du die Requirements umsetzen?</p>
+      <h2>📊 Completion</h2>
+      <p>How completely were you able to implement the requirements?</p>
 
       <!-- Button Completion -->
       <div class="completion-rating" *ngIf="feedback.completedTasks.button">
@@ -275,10 +275,10 @@
 
     <!-- Difficulty Assessment -->
     <section class="form-section" *ngIf="hasCompletedTasks()">
-      <h2>📈 Schwierigkeit</h2>
+      <h2>📈 Difficulty</h2>
       <p>
-        Wie schwierig empfandest du die Implementierung? (1 = sehr einfach, 5 =
-        sehr schwer)
+        How difficult did you find the implementation? (1 = very easy, 5 = very
+        difficult)
       </p>
 
       <!-- Button Difficulty -->
@@ -395,141 +395,134 @@
 
     <!-- Qualitative Feedback -->
     <section class="form-section">
-      <h2>💭 Qualitative Bewertung</h2>
+      <h2>💭 Qualitative Assessment</h2>
 
       <div class="input-group">
         <label for="mostChallenging"
-          >Was war die größte Herausforderung bei der Implementierung?</label
+          >What was the biggest challenge during implementation?</label
         >
         <textarea
           id="mostChallenging"
           [(ngModel)]="feedback.qualitative.mostChallenging"
           rows="3"
-          placeholder="Beschreibe spezifische Probleme oder Hindernisse..."
+          placeholder="Describe specific problems or obstacles..."
         ></textarea>
       </div>
 
       <div class="input-group">
-        <label for="easiestAspect"
-          >Was funktionierte am besten/war am einfachsten?</label
-        >
+        <label for="easiestAspect">What worked best/was easiest?</label>
         <textarea
           id="easiestAspect"
           [(ngModel)]="feedback.qualitative.easiestAspect"
           rows="3"
-          placeholder="Welche Aspekte liefen reibungslos..."
+          placeholder="Which aspects went smoothly..."
         ></textarea>
       </div>
 
       <div class="input-group">
         <label for="materialFrustrations"
-          >Spezifische Frustrationen mit Angular Material:</label
+          >Specific frustrations with Angular Material:</label
         >
         <textarea
           id="materialFrustrations"
           [(ngModel)]="feedback.qualitative.materialFrustrations"
           rows="3"
-          placeholder="CSS-Overrides, Breaking Changes, Dokumentation, etc..."
+          placeholder="CSS overrides, breaking changes, documentation, etc..."
         ></textarea>
       </div>
 
       <div class="input-group">
-        <label for="spadeFrustrations"
-          >Spezifische Frustrationen mit spade:</label
-        >
+        <label for="spadeFrustrations">Specific frustrations with spade:</label>
         <textarea
           id="spadeFrustrations"
           [(ngModel)]="feedback.qualitative.spadeFrustrations"
           rows="3"
-          placeholder="Code-Komplexität, fehlende Features, Dokumentation, etc..."
+          placeholder="Code complexity, missing features, documentation, etc..."
         ></textarea>
       </div>
     </section>
 
     <!-- Preferences -->
     <section class="form-section">
-      <h2>🎯 Präferenzen</h2>
+      <h2>🎯 Preferences</h2>
 
       <div class="input-group">
         <label for="preferredApproach"
-          >Welchen Ansatz würdest du für ein echtes Projekt wählen?</label
+          >Which approach would you choose for a real project?</label
         >
         <select
           id="preferredApproach"
           [(ngModel)]="feedback.preferences.preferredApproach"
         >
-          <option value="">Bitte wählen...</option>
+          <option value="">Please select...</option>
           <option value="material">Angular Material</option>
           <option value="spade">spade</option>
-          <option value="depends">Kommt darauf an</option>
-          <option value="neither">Keiner von beiden</option>
+          <option value="depends">It depends</option>
+          <option value="neither">Neither</option>
         </select>
       </div>
 
       <div class="input-group">
-        <label for="reasoning">Begründung für deine Wahl:</label>
+        <label for="reasoning">Reasoning for your choice:</label>
         <textarea
           id="reasoning"
           [(ngModel)]="feedback.preferences.reasoning"
           rows="4"
-          placeholder="Erkläre deine Entscheidung..."
+          placeholder="Explain your decision..."
         ></textarea>
       </div>
 
       <div class="input-group">
-        <label for="intuitive">Welcher Ansatz fühlte sich intuitiver an?</label>
+        <label for="intuitive">Which approach felt more intuitive?</label>
         <select id="intuitive" [(ngModel)]="feedback.preferences.moreIntuitive">
-          <option value="">Bitte wählen...</option>
+          <option value="">Please select...</option>
           <option value="material">Angular Material</option>
           <option value="spade">spade</option>
-          <option value="equal">Etwa gleich</option>
+          <option value="equal">About equal</option>
         </select>
       </div>
     </section>
 
     <!-- Improvements -->
     <section class="form-section">
-      <h2>🔧 Verbesserungsvorschläge</h2>
+      <h2>🔧 Improvement Suggestions</h2>
 
       <div class="input-group">
         <label for="materialImprovements"
-          >Wie könnte Angular Material für Projekt-Business verbessert
-          werden?</label
+          >How could Angular Material be improved for project business?</label
         >
         <textarea
           id="materialImprovements"
           [(ngModel)]="feedback.improvements.material"
           rows="3"
-          placeholder="Konkrete Vorschläge für Angular Material..."
+          placeholder="Concrete suggestions for Angular Material..."
         ></textarea>
       </div>
 
       <div class="input-group">
-        <label for="spadeImprovements"
-          >Wie könnte spade verbessert werden?</label
-        >
+        <label for="spadeImprovements">How could spade be improved?</label>
         <textarea
           id="spadeImprovements"
           [(ngModel)]="feedback.improvements.spade"
           rows="3"
-          placeholder="Konkrete Vorschläge für spade..."
+          placeholder="Concrete suggestions for spade..."
         ></textarea>
       </div>
     </section>
 
     <!-- Additional Comments -->
     <section class="form-section">
-      <h2>📝 Zusätzliche Kommentare</h2>
+      <h2>📝 Additional Comments</h2>
 
       <div class="input-group">
         <label for="additionalComments"
-          >Weitere Anmerkungen zum Experiment:</label
+          >Further remarks about the experiment:</label
         >
         <textarea
           id="additionalComments"
           [(ngModel)]="feedback.additionalComments"
           rows="4"
-          placeholder="Feedback zum Experiment-Setup, fehlende Aspekte, allgemeine Gedanken..."
+          placeholder="Feedback on experiment setup, missing aspects, general thoughts..."
         ></textarea>
       </div>
     </section>
@@ -537,38 +530,35 @@
     <!-- Submit Section -->
     <section class="submit-section">
       <div class="export-options">
-        <h3>📤 Feedback speichern</h3>
-        <p>Speichere dein Feedback als JSON-Datei im Projekt:</p>
+        <h3>📤 Save Feedback</h3>
+        <p>Save your feedback as a JSON file in the project:</p>
         <div class="export-buttons">
           <button type="button" class="export-btn" (click)="exportFeedback()">
-            📋 JSON herunterladen
+            📋 Download JSON
           </button>
           <button type="button" class="export-btn" (click)="copyToClipboard()">
-            📋 In Zwischenablage kopieren
+            📋 Copy to Clipboard
           </button>
         </div>
       </div>
 
       <div class="submit-info">
-        <h3>📦 Projekt übermitteln</h3>
+        <h3>📦 Submit Project</h3>
         <ol>
+          <li><strong>Save feedback:</strong> Click on "Save to Project"</li>
           <li>
-            <strong>Feedback speichern:</strong> Klicke auf "In Projekt
-            speichern"
+            <strong>Zip project:</strong> Create ZIP archive of entire project
+            folder (without <code>node_modules</code>)
           </li>
           <li>
-            <strong>Projekt zippen:</strong> Erstelle ZIP-Archiv des gesamten
-            Projektordners (ohne <code>node_modules</code>)
-          </li>
-          <li>
-            <strong>Übermittlung:</strong> Sende das ZIP an
-            <strong>florian.kulig@capgemini.com</strong> (Teams oder E-Mail)
+            <strong>Submission:</strong> Send the ZIP to
+            <strong>florian.kulig@capgemini.com</strong> (Teams or Email)
           </li>
         </ol>
         <p class="privacy-note">
           <em
-            >Deine Daten werden ausschließlich für die Bachelorarbeit verwendet
-            und nicht an Dritte weitergegeben.</em
+            >Your data will be used exclusively for the bachelor's thesis and
+            will not be shared with third parties.</em
           >
         </p>
       </div>

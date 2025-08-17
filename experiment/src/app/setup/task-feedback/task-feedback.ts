@@ -163,9 +163,7 @@ export class TaskFeedback implements OnInit {
     URL.revokeObjectURL(url);
 
     // Show success message
-    this.showNotification(
-      'Feedback erfolgreich als JSON-Datei heruntergeladen!'
-    );
+    this.showNotification('Feedback successfully downloaded as JSON file!');
   }
 
   async copyToClipboard(): Promise<void> {
@@ -177,7 +175,7 @@ export class TaskFeedback implements OnInit {
 
     try {
       await navigator.clipboard.writeText(JSON.stringify(exportData, null, 2));
-      this.showNotification('Feedback in die Zwischenablage kopiert!');
+      this.showNotification('Feedback copied to clipboard!');
     } catch (error) {
       console.error('Could not copy to clipboard:', error);
 
@@ -192,12 +190,9 @@ export class TaskFeedback implements OnInit {
 
       try {
         document.execCommand('copy');
-        this.showNotification('Feedback in die Zwischenablage kopiert!');
+        this.showNotification('Feedback copied to clipboard!');
       } catch (fallbackError) {
-        this.showNotification(
-          'Kopieren fehlgeschlagen. Bitte manuell kopieren.',
-          'error'
-        );
+        this.showNotification('Copy failed. Please copy manually.', 'error');
       } finally {
         document.body.removeChild(textArea);
       }
