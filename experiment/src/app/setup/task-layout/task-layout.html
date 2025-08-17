@@ -51,14 +51,14 @@
   <!-- Right Panel: Implementation -->
   <div class="implementation-panel">
     <mat-tab-group animationDuration="200ms" class="implementation-tabs">
-      <mat-tab label="🎨 Angular Material">
-        <div class="tab-content">
-          <ng-content select="[slot=material-implementation]"></ng-content>
-        </div>
-      </mat-tab>
       <mat-tab label="⚡ spade">
         <div class="tab-content">
           <ng-content select="[slot=spade-implementation]"></ng-content>
+        </div>
+      </mat-tab>
+      <mat-tab label="🎨 Angular Material">
+        <div class="tab-content">
+          <ng-content select="[slot=material-implementation]"></ng-content>
         </div>
       </mat-tab>
     </mat-tab-group>
