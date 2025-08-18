@@ -64,6 +64,9 @@
 
   // Input states
   --spade-input-cursor-disabled: var(--spade-form-cursor-disabled);
+  display: block;
+  width: 100%;
+  font-family: var(--spade-input-font-family);
 }
 
 .spade-input {
