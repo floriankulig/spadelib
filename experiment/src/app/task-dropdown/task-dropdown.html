@@ -21,12 +21,15 @@
     <h4>Specific Requirements:</h4>
     <ol>
       <li>
-        <strong>Search Functionality:</strong>
+        <strong>Styling:</strong>
         <ul>
-          <li>Add live search/filter capability within dropdown panel</li>
-          <li>Search input should be at the top of the dropdown</li>
-          <li>Filter available options in real-time</li>
-          <li>Case-insensitive matching</li>
+          <li>
+            Change primary color from default to #1c5f2d (dark green, found in
+            tokens/design-tokens.scss)
+          </li>
+          <li>Label inside the trigger (font-weight normal)</li>
+          <li>Checkmark at the left of the option</li>
+          <li>Unchecked checkmark with greyed box</li>
         </ul>
       </li>
       <li>
@@ -47,27 +50,15 @@
           <li>Accessible click targets</li>
         </ul>
       </li>
-      <li>
-        <strong>Enhanced UX:</strong>
-        <ul>
-          <li>Search input should be focusable when dropdown opens</li>
-          <li>ESC key clears search and closes dropdown</li>
-          <li>Arrow keys navigate filtered options</li>
-          <li>Maintain keyboard accessibility</li>
-        </ul>
-      </li>
     </ol>
   </div>
 
   <!-- Success Criteria Slot -->
   <div slot="success-criteria">
     <ul>
-      <li>✅ Search functionality filters options in real-time</li>
+      <li>✅ Styles as in target design (or close to it)</li>
       <li>✅ Selected items displayed as removable chips</li>
       <li>✅ Chip remove functionality working</li>
-      <li>✅ Keyboard navigation preserved</li>
-      <li>✅ Performance with 50+ options</li>
-      <li>✅ Accessible focus management</li>
     </ul>
   </div>
 
@@ -77,11 +68,9 @@
       <mat-form-field appearance="outline">
         <mat-label>Product Categories</mat-label>
         <mat-select multiple>
-          <mat-option value="electronics">Electronics</mat-option>
-          <mat-option value="clothing">Clothing</mat-option>
-          <mat-option value="books">Books</mat-option>
-          <mat-option value="home">Home & Garden</mat-option>
-          <mat-option value="sports">Sports</mat-option>
+          @for (option of mockOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
