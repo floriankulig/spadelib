@@ -106,19 +106,19 @@
 
     // Size variants
     &--sm {
-      padding: var(--spade-input-padding-sm);
+      --input-padding: var(--spade-input-padding-sm);
       font-size: var(--spade-input-font-size-sm);
       min-height: var(--spade-input-min-height-sm);
     }
 
     &--md {
-      padding: var(--spade-input-padding-md);
+      --input-padding: var(--spade-input-padding-md);
       font-size: var(--spade-input-font-size-md);
       min-height: var(--spade-input-min-height-md);
     }
 
     &--lg {
-      padding: var(--spade-input-padding-lg);
+      --input-padding: var(--spade-input-padding-lg);
       font-size: var(--spade-input-font-size-lg);
       min-height: var(--spade-input-min-height-lg);
     }
@@ -153,6 +153,7 @@
     width: 100%;
     font: inherit;
     border: none;
+    padding: var(--input-padding);
     background-color: transparent;
     color: inherit;
 
