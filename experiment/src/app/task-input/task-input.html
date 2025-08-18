@@ -8,7 +8,7 @@
   taskTitle="Input Field Component Enhancement"
   estimatedTime="20 minutes"
   taskDifficulty="medium"
-  targetImageSrc="/assets/task-2-target.png"
+  targetImageSrc="/task-2-target.png"
 >
   <!-- Requirements Slot -->
   <div slot="requirements">
@@ -31,14 +31,14 @@
             Display current/max character count inside input field
             (right-aligned)
           </li>
-          <li>Format: "125/250" characters</li>
+          <li>Format: "125/200" characters</li>
           <li>Positioned inside the input field on the right side</li>
         </ul>
       </li>
       <li>
         <strong>Character Limit:</strong>
         <ul>
-          <li>Set maximum to 250 characters</li>
+          <li>Set maximum to 200 characters</li>
           <li>Prevent input beyond limit</li>
           <li>Update counter in real-time</li>
         </ul>
@@ -46,9 +46,9 @@
       <li>
         <strong>Visual Feedback:</strong>
         <ul>
-          <li>Green counter color when < 200 characters</li>
-          <li>Orange counter color when 200-240 characters</li>
-          <li>Red counter color when > 240 characters</li>
+          <li>Green counter color when < 160 (<80%) characters</li>
+          <li>Orange counter color when 160-190 (80%-95%) characters</li>
+          <li>Red counter color when > 190 characters</li>
           <li>Smooth color transitions</li>
         </ul>
       </li>
@@ -68,7 +68,7 @@
       <li>✅ Character counter visible and properly positioned</li>
       <li>✅ Real-time updates as user types</li>
       <li>✅ Color feedback based on character usage</li>
-      <li>✅ 250 character limit enforced</li>
+      <li>✅ 200 character limit enforced</li>
       <li>✅ Integration with existing validation preserved</li>
     </ul>
   </div>
@@ -81,9 +81,9 @@
         <input
           matInput
           placeholder="Enter your description here..."
-          maxlength="250"
+          maxlength="200"
         />
-        <mat-hint>Maximum 250 characters</mat-hint>
+        <mat-hint>Maximum 200 characters</mat-hint>
       </mat-form-field>
     </div>
   </div>
@@ -91,11 +91,16 @@
   <!-- spade Implementation Slot -->
   <div slot="spade-implementation">
     <div class="input-demo">
-      <spade-input
-        label="Description"
-        placeholder="Enter your description here..."
-        hint="Maximum 250 characters"
-      ></spade-input>
+      <div class="step-group">
+        <spade-input
+          label="Description"
+          placeholder="Enter your description here..."
+          hint="Maximum 200 characters"
+        ></spade-input>
+      </div>
+      <div class="step-group">
+        <p>Visual design does not matter here!</p>
+      </div>
     </div>
   </div>
 </app-task-layout>
