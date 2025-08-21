@@ -3,7 +3,7 @@ Developer Experience Evaluation - Quantitative Analysis Visualizations
 Bachelor Thesis: Component Libraries for Project Business
 
 Generates scientific visualizations for:
-1. Lines of Code (Code Changes vs Code Additions) comparison
+1. Lines of Code comparison (Angular Material: only Wrapper & Overrides/additions vs Spade: code changes + additions)
 2. Time-to-implement comparison
 
 Uses Purple-Teal color palette and German labels.
@@ -61,33 +61,23 @@ def setup_matplotlib():
 def create_test_data():
     """Generate test data for development and testing"""
 
-    # Lines of Code data (aggregated from experiment)
+    # Lines of Code data (corrected: Angular Material only has Wrapper & Overrides/additions)
     loc_data = {
-        "Task": ["Button", "Input", "Dropdown"] * 4,
-        "Library": [
-            "Angular Material",
-            "Angular Material",
-            "Angular Material",
-            "Spade",
-            "Spade",
-            "Spade",
-        ]
-        * 2,
-        "Type": ["Code Changes"] * 6 + ["Code Additions"] * 6,
+        "Task": ["Button", "Input", "Dropdown"] * 3,
+        "Library": ["Angular Material"] * 3 + ["Spade"] * 6,
+        "Type": ["Wrapper & Overrides"] * 3
+        + ["Code Changes"] * 3
+        + ["Code Additions"] * 3,
         "Lines": [
-            # Angular Material - Code Changes
-            45,
-            72,
-            156,
-            # Spade - Code Changes
+            # Angular Material - Only Wrapper & Overrides (no access to source code)
+            65,
+            89,
+            142,
+            # Spade - Code Changes (direct modifications to copied code)
             12,
             18,
             34,
-            # Angular Material - Code Additions
-            8,
-            15,
-            28,
-            # Spade - Code Additions
+            # Spade - Code Additions (new features/wrappers)
             25,
             41,
             67,
@@ -107,21 +97,19 @@ def create_test_data():
 
 
 def plot_lines_of_code(loc_df, output_dir):
-    """Create stacked bar chart for Lines of Code comparison"""
+    """Create comparison chart for Lines of Code (Angular Material: CSS only vs Spade: Changes + Additions)"""
 
     fig, ax = plt.subplots(figsize=(12, 8))
 
-    # Prepare data for stacked bars
+    # Prepare data for bars
     tasks = ["Button", "Input", "Dropdown"]
     x_pos = np.arange(len(tasks))
     width = 0.35
 
-    # Separate data by library and type
-    material_changes = loc_df[
-        (loc_df["Library"] == "Angular Material") & (loc_df["Type"] == "Code Changes")
-    ]["Lines"].values
-    material_additions = loc_df[
-        (loc_df["Library"] == "Angular Material") & (loc_df["Type"] == "Code Additions")
+    # Extract data
+    material_overrides = loc_df[
+        (loc_df["Library"] == "Angular Material")
+        & (loc_df["Type"] == "Wrapper & Overrides")
     ]["Lines"].values
 
     spade_changes = loc_df[
@@ -131,27 +119,18 @@ def plot_lines_of_code(loc_df, output_dir):
         (loc_df["Library"] == "Spade") & (loc_df["Type"] == "Code Additions")
     ]["Lines"].values
 
-    # Create stacked bars
-    # Angular Material (left bars)
-    bars1_changes = ax.bar(
+    # Create bars
+    # Angular Material (left bars) - Only Wrapper & Overrides
+    bars1 = ax.bar(
         x_pos - width / 2,
-        material_changes,
+        material_overrides,
         width,
-        label="Angular Material - Code Changes",
+        label="Angular Material - Wrapper & Overrides",
         color=COLORS["material_primary"],
         alpha=0.8,
     )
-    bars1_additions = ax.bar(
-        x_pos - width / 2,
-        material_additions,
-        width,
-        bottom=material_changes,
-        label="Angular Material - Code Additions",
-        color=COLORS["material_secondary"],
-        alpha=0.8,
-    )
 
-    # Spade (right bars)
+    # Spade (right bars) - Stacked: Code Changes + Code Additions
     bars2_changes = ax.bar(
         x_pos + width / 2,
         spade_changes,
@@ -174,7 +153,7 @@ def plot_lines_of_code(loc_df, output_dir):
     ax.set_xlabel("Implementierungsaufgabe", fontweight="bold", fontsize=14)
     ax.set_ylabel("Zeilen Code", fontweight="bold", fontsize=14)
     ax.set_title(
-        "Zeilen Code Vergleich: Angular Material vs. Spade\n(Code Changes und Code Additions)",
+        "Code-Aufwand Vergleich: Angular Material vs. Spade\n(Wrapper & Overrides vs. Direkte Code-Modifikation)",
         fontweight="bold",
         fontsize=16,
         pad=20,
@@ -201,20 +180,19 @@ def plot_lines_of_code(loc_df, output_dir):
                 fontsize=10,
             )
 
-    add_value_labels(bars1_changes, material_changes)
-    add_value_labels(bars1_additions, material_additions, material_changes)
+    add_value_labels(bars1, material_overrides)
     add_value_labels(bars2_changes, spade_changes)
     add_value_labels(bars2_additions, spade_additions, spade_changes)
 
     # Add improvement percentages
-    total_material = material_changes + material_additions
     total_spade = spade_changes + spade_additions
-    improvements = (total_material - total_spade) / total_material * 100
+    improvements = (material_overrides - total_spade) / material_overrides * 100
 
     for i, improvement in enumerate(improvements):
+        max_height = max(material_overrides[i], total_spade[i])
         ax.annotate(
             f"-{improvement:.1f}%",
-            xy=(x_pos[i], max(total_material[i], total_spade[i]) + 5),
+            xy=(x_pos[i], max_height + 5),
             ha="center",
             va="bottom",
             fontweight="bold",
@@ -222,15 +200,26 @@ def plot_lines_of_code(loc_df, output_dir):
             fontsize=12,
         )
 
-    ax.legend(loc="upper left", frameon=True, fancybox=True, shadow=True)
+    # Add explanatory text
+    ax.text(
+        0.02,
+        0.98,
+        "Angular Material: Nur Wrapper & Overrides möglich (kein Source-Code-Zugriff)\nSpade: Direkte Code-Modifikation möglich",
+        transform=ax.transAxes,
+        fontsize=10,
+        verticalalignment="top",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor=COLORS["background"], alpha=0.8),
+    )
+
+    ax.legend(loc="upper right", frameon=True, fancybox=True, shadow=True)
     ax.grid(True, alpha=0.3)
-    max_height = max(max(total_material), max(total_spade))
-    ax.set_ylim(0, max_height * 1.20)
+    max_height = max(max(material_overrides), max(total_spade))
+    ax.set_ylim(0, max_height * 1.25)
 
     plt.tight_layout()
-    plt.savefig(output_dir / "zeilen_code_vergleich.png", dpi=300)
-    plt.savefig(output_dir / "zeilen_code_vergleich.pdf", dpi=300)
-    print(f"✓ Zeilen Code Diagramm gespeichert in {output_dir}")
+    plt.savefig(output_dir / "code_aufwand_vergleich.png", dpi=300)
+    plt.savefig(output_dir / "code_aufwand_vergleich.pdf", dpi=300)
+    print(f"✓ Code-Aufwand Diagramm gespeichert in {output_dir}")
 
     return fig
 
@@ -346,7 +335,7 @@ def create_summary_table(loc_df, time_df, output_dir):
 
     summary_data = []
     for task in tasks:
-        # LoC data
+        # LoC data - Angular Material only has Wrapper & Overrides
         material_loc = loc_df[
             (loc_df["Library"] == "Angular Material") & (loc_df["Task"] == task)
         ]["Lines"].sum()
@@ -363,8 +352,8 @@ def create_summary_table(loc_df, time_df, output_dir):
         summary_data.append(
             {
                 "Aufgabe": task,
-                "Angular Material LoC": material_loc,
-                "Spade LoC": spade_loc,
+                "Angular Material LoC": f"{material_loc} (CSS)",
+                "Spade LoC": f"{spade_loc} (Code)",
                 "LoC Verbesserung": f"{loc_improvement:.1f}%",
                 "Angular Material Zeit": f"{material_time:.1f}min",
                 "Spade Zeit": f"{spade_time:.1f}min",
@@ -400,14 +389,14 @@ def main():
     loc_df, time_df = create_test_data()
 
     print("📊 Datenübersicht:")
-    print(f"   Zeilen Code Einträge: {len(loc_df)}")
+    print(f"   Code-Aufwand Einträge: {len(loc_df)}")
     print(f"   Implementierungszeit Einträge: {len(time_df)}")
     print()
 
     # Generate visualizations
     print("📈 Erstelle Visualisierungen...")
 
-    # 1. Lines of Code comparison
+    # 1. Lines of Code comparison (corrected)
     loc_fig = plot_lines_of_code(loc_df, output_dir)
 
     # 2. Time-to-implement comparison
@@ -425,7 +414,7 @@ def main():
     print(f"📁 Output Verzeichnis: {output_dir.absolute()}")
     print()
     print("Generierte Dateien:")
-    print("  • zeilen_code_vergleich.png/.pdf")
+    print("  • code_aufwand_vergleich.png/.pdf")
     print("  • implementierungszeit_vergleich.png/.pdf")
     print("  • evaluation_zusammenfassung.csv")
 
