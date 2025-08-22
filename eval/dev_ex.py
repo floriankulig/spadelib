@@ -61,7 +61,7 @@ def setup_matplotlib():
 def create_test_data():
     """Generate test data for development and testing"""
 
-    # Lines of Code data (corrected: Angular Material only has Wrapper & Overrides/additions)
+    # Lines of Code data (randomized decimals added)
     loc_data = {
         "Task": ["Button", "Input", "Dropdown"] * 3,
         "Library": ["Angular Material"] * 3 + ["Spade"] * 6,
@@ -70,27 +70,27 @@ def create_test_data():
         + ["Code Additions"] * 3,
         "Lines": [
             # Angular Material - Only Wrapper & Overrides (no access to source code)
-            65,
-            89,
-            142,
+            25.82,
+            41.1,
+            80.77,
             # Spade - Code Changes (direct modifications to copied code)
-            12,
-            18,
-            34,
+            4.19,
+            2.23,
+            39.21,
             # Spade - Code Additions (new features/wrappers)
-            25,
-            41,
-            67,
+            12.43,
+            26.34,
+            6.7,
         ],
     }
 
-    # Time-to-implement data (in minutes)
+    # Time-to-implement data (randomized decimals + bigger stds)
     time_data = {
         "Task": ["Button", "Input", "Dropdown"],
-        "Angular Material": [28.5, 45.2, 78.4],
-        "Spade": [12.3, 19.7, 31.8],
-        "Angular Material Std": [5.2, 8.1, 12.3],
-        "Spade Std": [2.1, 3.4, 6.7],
+        "Angular Material": [15.63, 26.78, 55.55],
+        "Spade": [12.6, 18.67, 30.61],
+        "Angular Material Std": [2.05, 3.57, 8.34],
+        "Spade Std": [1.64, 2.61, 4.59],
     }
 
     return pd.DataFrame(loc_data), pd.DataFrame(time_data)
@@ -192,7 +192,7 @@ def plot_lines_of_code(loc_df, output_dir):
         max_height = max(material_overrides[i], total_spade[i])
         ax.annotate(
             f"-{improvement:.1f}%",
-            xy=(x_pos[i], max_height + 5),
+            xy=(x_pos[i], max_height + 2),
             ha="center",
             va="bottom",
             fontweight="bold",
