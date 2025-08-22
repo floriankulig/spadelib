@@ -1,14 +1,14 @@
 import pandas as pd
 import numpy as np
-import re
 from pathlib import Path
-from openpyxl.styles import Font, Alignment, PatternFill
+from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl import Workbook
 
 
-def compress_survey_data(csv_file_path, excel_output_path):
+def process_survey_for_appendix(csv_file_path, excel_output_path):
     """
-    Compresses survey data with multiple output formats for better readability.
+    Processes survey data into a single, appendix-ready table with statistics.
 
     Args:
         csv_file_path (str): Path to the input CSV file
@@ -18,384 +18,354 @@ def compress_survey_data(csv_file_path, excel_output_path):
     # Load the CSV data
     df = pd.read_csv(csv_file_path)
 
-    # Create basic info dataframe
-    basic_columns = [
-        "Response ID",
-        "Date submitted",
-        "Last page",
-        "Start language",
-        "Seed",
-        "Date started",
-        "Date last action",
-    ]
-
-    basic_df = pd.DataFrame()
-    for col in basic_columns:
-        if col in df.columns:
-            basic_df[col] = df[col]
-
-    # Simple single-answer questions
-    simple_questions = {
-        "Role": "Which role best describes your position?",
-        "Framework": "Which Framework are you using in your current project?",
-        "Component_Ratio": "How would you estimate the proportion of reused components from libraries compared to individually created components in your projects?",
-        "Time_Per_Sprint": "How much time do you spend on average per sprint (~3 weeks) adapting or overriding components from standard libraries?",
-        "Reimplementation_Frequency": "How often do you need to completely reimplement components that already exist in a library to fulfill client requirements?",
-        "Satisfaction_Rating": "How satisfied are you overall with the currently available UI component libraries for enterprise projects?",
-        "Preferred_Approach": "If you could develop your own component library for your project / Capgemini-wide, which of the following approaches would interest you the most?",
-        "Multi_Framework_Work": "Do you work on projects with multiple frontend frameworks simultaneously?",
+    # Define column mappings for clear, German headers
+    column_mappings = {
+        "Response ID": "Antwort-ID",
+        "Which role best describes your position?": "Rolle",
+        "Which Framework are you using in your current project?": "Framework",
+        "How would you estimate the proportion of reused components from libraries compared to individually created components in your projects?": "Komponenten-Verhältnis",
+        "How much time do you spend on average per sprint (~3 weeks) adapting or overriding components from standard libraries?": "Zeitaufwand pro Sprint",
+        "How often do you need to completely reimplement components that already exist in a library to fulfill client requirements?": "Neuimplementierung Häufigkeit",
+        "How satisfied are you overall with the currently available UI component libraries for enterprise projects?": "Zufriedenheit (1-5)",
+        "If you could develop your own component library for your project / Capgemini-wide, which of the following approaches would interest you the most?": "Bevorzugter Ansatz",
+        "Do you work on projects with multiple frontend frameworks simultaneously?": "Multi-Framework Arbeit",
     }
 
-    # Create simple answers dataframe
-    simple_df = basic_df.copy()
-    for new_col, original_col in simple_questions.items():
-        if original_col in df.columns:
-            simple_df[new_col] = df[original_col]
-
-    def extract_multiple_choice_clean(df, base_question, response_col="Response ID"):
-        """Extract multiple choice in a clean format with line breaks"""
+    def extract_multiple_choice_selected(df, base_question):
+        """Extract only selected options from multiple choice questions"""
         matching_cols = [col for col in df.columns if col.startswith(base_question)]
 
-        result_data = []
+        result_series = []
 
         for idx, row in df.iterrows():
-            response_id = row.get(response_col, idx + 1)
             selected_options = []
 
             for col in matching_cols:
                 value = row[col]
 
-                if pd.isna(value) or value == "":
+                # Skip empty/nan values
+                if pd.isna(value) or value == "" or value == "Not selected":
                     continue
 
-                # Extract option name
+                # Extract option name from column header
                 if "[" in col and "]" in col:
                     option = col.split("[")[1].split("]")[0]
                 else:
+                    # Fallback extraction
                     option = col.replace(base_question, "").strip()
                     if option.startswith(" [") and option.endswith("]"):
                         option = option[2:-1]
 
-                # Handle different value types
+                # Check if this option is selected
                 if isinstance(value, str):
-                    if value.lower() in ["selected", "yes", "true"]:
+                    if value.lower() in ["selected", "yes", "true", "1"]:
                         selected_options.append(option)
-                    elif value not in ["not selected", "no", "false", ""]:
-                        selected_options.append(f"{option}")
-                elif isinstance(value, (int, float)) and not pd.isna(value):
+                    elif value.lower() not in ["not selected", "no", "false", "0", ""]:
+                        # If it's not a standard selection indicator, treat as selected
+                        selected_options.append(option)
+                elif (
+                    isinstance(value, (int, float))
+                    and not pd.isna(value)
+                    and value != 0
+                ):
                     selected_options.append(option)
 
-            # Use line breaks instead of semicolons for better readability
-            result = "\n".join(selected_options) if selected_options else ""
-            result_data.append({"Response ID": response_id, "Answers": result})
+            # Join with semicolons for compact display
+            result = "; ".join(selected_options) if selected_options else ""
+            result_series.append(result)
 
-        return pd.DataFrame(result_data)
+        return pd.Series(result_series, name=base_question)
 
-    def extract_ratings_clean(df, base_question, response_col="Response ID"):
-        """Extract rating questions in a clean format"""
-        matching_cols = [col for col in df.columns if col.startswith(base_question)]
+    # Start with basic columns
+    result_df = pd.DataFrame()
 
-        result_data = []
+    # Add Response ID if available
+    if "Response ID" in df.columns:
+        result_df["Antwort-ID"] = df["Response ID"]
+    else:
+        result_df["Antwort-ID"] = range(1, len(df) + 1)
 
+    # Add simple single-answer questions
+    for original_col, german_col in column_mappings.items():
+        if original_col in df.columns and original_col != "Response ID":
+            result_df[german_col] = df[original_col]
+
+    # Process multiple choice questions
+    ui_libraries_question = "Which UI component libraries are you currently using or have used in enterprise projects within the last 2 years?"
+    if any(col.startswith(ui_libraries_question) for col in df.columns):
+        ui_libraries_series = extract_multiple_choice_selected(
+            df, ui_libraries_question
+        )
+        result_df["Verwendete UI Libraries"] = ui_libraries_series
+
+    challenges_question = "What are the biggest challenges when using UI component libraries in the customer projects you were a part of?"
+    if any(col.startswith(challenges_question) for col in df.columns):
+        challenges_series = extract_multiple_choice_selected(df, challenges_question)
+        result_df["Größte Herausforderungen"] = challenges_series
+
+    accessibility_standards_question = (
+        "Which accessibility standards do you need to meet in your projects?"
+    )
+    if any(col.startswith(accessibility_standards_question) for col in df.columns):
+        accessibility_standards_series = extract_multiple_choice_selected(
+            df, accessibility_standards_question
+        )
+        result_df["Accessibility Standards"] = accessibility_standards_series
+
+    accessibility_testing_question = (
+        "How do you currently test accessibility in your applications?"
+    )
+    if any(col.startswith(accessibility_testing_question) for col in df.columns):
+        accessibility_testing_series = extract_multiple_choice_selected(
+            df, accessibility_testing_question
+        )
+        result_df["Accessibility Testing"] = accessibility_testing_series
+
+    # Add importance ratings as a single column
+    importance_base_question = "Please rate the following aspects according to their importance for an ideal component library"
+    importance_cols = [
+        col for col in df.columns if col.startswith(importance_base_question)
+    ]
+
+    if importance_cols:
+        importance_ratings = []
         for idx, row in df.iterrows():
-            response_id = row.get(response_col, idx + 1)
             ratings = []
-
-            for col in matching_cols:
+            for col in importance_cols:
                 value = row[col]
-
                 if pd.isna(value) or value == "":
                     continue
 
-                # Extract option name
+                # Extract aspect name
                 if "[" in col and "]" in col:
-                    option = col.split("[")[1].split("]")[0]
+                    aspect = col.split("[")[1].split("]")[0]
                 else:
-                    option = col.replace(base_question, "").strip()
+                    aspect = col.replace(importance_base_question, "").strip()
 
                 if isinstance(value, (int, float)) and not pd.isna(value):
                     rating_map = {
-                        1: "unimportant",
-                        2: "somewhat unimportant",
+                        1: "unwichtig",
+                        2: "eher unwichtig",
                         3: "nice to have",
-                        4: "important",
-                        5: "very important",
+                        4: "wichtig",
+                        5: "sehr wichtig",
                     }
                     rating_text = rating_map.get(int(value), str(int(value)))
-                    ratings.append(f"{option}: {rating_text}")
-                elif isinstance(value, str) and value.strip():
-                    ratings.append(f"{option}: {value}")
+                    ratings.append(f"{aspect}: {rating_text}")
 
-            result = "\n".join(ratings) if ratings else ""
-            result_data.append({"Response ID": response_id, "Ratings": result})
+            importance_ratings.append("; ".join(ratings) if ratings else "")
 
-        return pd.DataFrame(result_data)
-
-    # Extract different question types
-    ui_libraries = extract_multiple_choice_clean(
-        df,
-        "Which UI component libraries are you currently using or have used in enterprise projects within the last 2 years?",
-    )
-    ui_libraries.rename(columns={"Answers": "UI_Libraries_Used"}, inplace=True)
-
-    challenges = extract_multiple_choice_clean(
-        df,
-        "What are the biggest challenges when using UI component libraries in the customer projects you were a part of?",
-    )
-    challenges.rename(columns={"Answers": "Biggest_Challenges"}, inplace=True)
-
-    accessibility_standards = extract_multiple_choice_clean(
-        df, "Which accessibility standards do you need to meet in your projects?"
-    )
-    accessibility_standards.rename(
-        columns={"Answers": "Accessibility_Standards"}, inplace=True
-    )
-
-    accessibility_testing = extract_multiple_choice_clean(
-        df, "How do you currently test accessibility in your applications?"
-    )
-    accessibility_testing.rename(
-        columns={"Answers": "Accessibility_Testing"}, inplace=True
-    )
-
-    importance_ratings = extract_ratings_clean(
-        df,
-        "Please rate the following aspects according to their importance for an ideal component library in your (previous) project context.",
-    )
-    importance_ratings.rename(columns={"Ratings": "Importance_Ratings"}, inplace=True)
-
-    # Merge all data
-    final_df = simple_df.copy()
-
-    for additional_df in [
-        ui_libraries,
-        challenges,
-        accessibility_standards,
-        accessibility_testing,
-        importance_ratings,
-    ]:
-        final_df = final_df.merge(additional_df, on="Response ID", how="left")
+        result_df["Wichtigkeits-Bewertungen"] = importance_ratings
 
     # Add open-ended questions
     open_questions = {
-        "Biggest_Frustration": "What is your biggest frustration when working with existing component libraries in enterprise projects?",
-        "Innovative_Approaches": "What innovative approaches or best practices have you found to overcome challenges with component libraries?",
-        "Accessibility_Challenges": "What are your biggest challenges when implementing accessibility in client projects?",
+        "What is your biggest frustration when working with existing component libraries in enterprise projects?": "Größte Frustration",
+        "What innovative approaches or best practices have you found to overcome challenges with component libraries?": "Innovative Ansätze",
+        "What are your biggest challenges when implementing accessibility in client projects?": "Accessibility Herausforderungen",
     }
 
-    for new_col, original_col in open_questions.items():
+    for original_col, german_col in open_questions.items():
         if original_col in df.columns:
-            final_df[new_col] = df[original_col]
+            result_df[german_col] = df[original_col]
 
-    # Create long format for analysis
-    long_format_data = []
+    # Calculate statistics for footer
+    stats_data = []
 
-    for idx, row in final_df.iterrows():
-        response_id = row["Response ID"]
+    for col in result_df.columns:
+        if col == "Antwort-ID":
+            continue
 
-        # Add simple questions
-        for col in [
-            "Role",
+        # Count non-empty responses
+        non_empty = result_df[col].dropna()
+        non_empty = non_empty[non_empty != ""]
+        total_responses = len(non_empty)
+
+        if total_responses == 0:
+            stats_data.append("")
+            continue
+
+        # For categorical data, show top 3 responses
+        if col in [
+            "Rolle",
             "Framework",
-            "Component_Ratio",
-            "Time_Per_Sprint",
-            "Reimplementation_Frequency",
-            "Satisfaction_Rating",
-            "Preferred_Approach",
+            "Komponenten-Verhältnis",
+            "Zeitaufwand pro Sprint",
+            "Neuimplementierung Häufigkeit",
+            "Bevorzugter Ansatz",
+            "Multi-Framework Arbeit",
         ]:
-            if col in row and pd.notna(row[col]) and row[col] != "":
-                long_format_data.append(
-                    {
-                        "Response_ID": response_id,
-                        "Question_Category": col,
-                        "Answer": row[col],
-                    }
-                )
-
-        # Add multiple choice questions
-        for col, full_name in [
-            ("UI_Libraries_Used", "UI Libraries Used"),
-            ("Biggest_Challenges", "Biggest Challenges"),
-            ("Accessibility_Standards", "Accessibility Standards"),
-            ("Accessibility_Testing", "Accessibility Testing"),
-        ]:
-            if col in row and pd.notna(row[col]) and row[col] != "":
-                for answer in row[col].split("\n"):
-                    if answer.strip():
-                        long_format_data.append(
-                            {
-                                "Response_ID": response_id,
-                                "Question_Category": full_name,
-                                "Answer": answer.strip(),
-                            }
-                        )
-
-        # Add importance ratings
-        if (
-            "Importance_Ratings" in row
-            and pd.notna(row["Importance_Ratings"])
-            and row["Importance_Ratings"] != ""
-        ):
-            for rating in row["Importance_Ratings"].split("\n"):
-                if rating.strip():
-                    long_format_data.append(
-                        {
-                            "Response_ID": response_id,
-                            "Question_Category": "Importance Rating",
-                            "Answer": rating.strip(),
-                        }
+            value_counts = non_empty.value_counts()
+            if len(value_counts) > 0:
+                top_responses = []
+                for i, (response, count) in enumerate(value_counts.head(3).items()):
+                    percentage = (count / total_responses) * 100
+                    top_responses.append(
+                        f"{response} ({percentage:.1f}%)".replace(".", ",")
                     )
+                stats_data.append("Top 3:\n" + "\n".join(top_responses))
+            else:
+                stats_data.append("")
 
-    long_format_df = pd.DataFrame(long_format_data)
+        # For satisfaction rating, calculate average
+        elif col == "Zufriedenheit (1-5)":
+            try:
+                numeric_values = pd.to_numeric(non_empty, errors="coerce").dropna()
+                if len(numeric_values) > 0:
+                    avg_rating = numeric_values.mean()
+                    stats_data.append(
+                        f"Durchschnitt: {avg_rating:.2f}".replace(".", ",")
+                    )
+                else:
+                    stats_data.append("")
+            except:
+                stats_data.append("")
 
-    # Create summary statistics
-    summary_data = []
+        # For multiple choice questions, show top 3 selections
+        elif col in [
+            "Verwendete UI Libraries",
+            "Größte Herausforderungen",
+            "Accessibility Standards",
+            "Accessibility Testing",
+        ]:
+            all_selections = []
+            for response in non_empty:
+                if response and response != "":
+                    selections = [s.strip() for s in response.split(";") if s.strip()]
+                    all_selections.extend(selections)
 
-    # Role distribution
-    if "Role" in final_df.columns:
-        role_counts = final_df["Role"].value_counts()
-        for role, count in role_counts.items():
-            summary_data.append(
-                {
-                    "Category": "Role",
-                    "Item": role,
-                    "Count": count,
-                    "Percentage": f"{count/len(final_df)*100:.1f}%",
-                }
-            )
+            if all_selections:
+                selection_counts = pd.Series(all_selections).value_counts().head(3)
+                top_selections = []
+                for selection, count in selection_counts.items():
+                    percentage = (count / total_responses) * 100
+                    top_selections.append(
+                        f"{selection} ({percentage:.1f}%)".replace(".", ",")
+                    )
+                stats_data.append("Top 3:\n" + "\n".join(top_selections))
+            else:
+                stats_data.append("")
 
-    # Framework distribution
-    if "Framework" in final_df.columns:
-        framework_counts = final_df["Framework"].value_counts()
-        for framework, count in framework_counts.items():
-            summary_data.append(
-                {
-                    "Category": "Framework",
-                    "Item": framework,
-                    "Count": count,
-                    "Percentage": f"{count/len(final_df)*100:.1f}%",
-                }
-            )
+        # For text fields, show response rate
+        else:
+            response_rate = (total_responses / len(result_df)) * 100
+            stats_data.append(f"Antwortrate: {response_rate:.1f}%".replace(".", ","))
 
-    # Most mentioned challenges
-    if "Biggest_Challenges" in final_df.columns:
-        all_challenges = []
-        for challenges_text in final_df["Biggest_Challenges"].dropna():
-            all_challenges.extend(
-                [c.strip() for c in challenges_text.split("\n") if c.strip()]
-            )
+    # Add statistics row
+    stats_row = ["STATISTIKEN"] + stats_data
 
-        challenge_counts = pd.Series(all_challenges).value_counts().head(10)
-        for challenge, count in challenge_counts.items():
-            summary_data.append(
-                {
-                    "Category": "Top Challenges",
-                    "Item": challenge,
-                    "Count": count,
-                    "Percentage": f"{count/len(final_df)*100:.1f}%",
-                }
-            )
+    # Create final dataframe with statistics
+    final_df = result_df.copy()
 
-    summary_df = pd.DataFrame(summary_data)
-
-    # Save to Excel with multiple sheets
+    # Save to Excel with formatting
     with pd.ExcelWriter(excel_output_path, engine="openpyxl") as writer:
-        # Main compressed data
-        final_df.to_excel(writer, sheet_name="Compressed_Data", index=False)
+        # Write main data
+        final_df.to_excel(writer, sheet_name="Umfrageergebnisse", index=False)
 
-        # Long format for analysis
-        long_format_df.to_excel(writer, sheet_name="Long_Format", index=False)
+        # Get the worksheet
+        worksheet = writer.sheets["Umfrageergebnisse"]
 
-        # Summary statistics
-        summary_df.to_excel(writer, sheet_name="Summary", index=False)
+        # Add statistics row
+        stats_row_index = len(final_df) + 3  # Leave a gap
+        for col_idx, stat in enumerate(stats_row):
+            cell = worksheet.cell(row=stats_row_index, column=col_idx + 1)
+            cell.value = stat
+            cell.alignment = Alignment(
+                wrap_text=True, vertical="top"
+            )  # Enable wrap text for statistics
+            if col_idx == 0:  # First column header
+                cell.font = Font(bold=True)
+                cell.fill = PatternFill(
+                    start_color="E6E6E6", end_color="E6E6E6", fill_type="solid"
+                )
+            else:
+                cell.font = Font(size=9)
 
-        # Separate sheets for each question type
-        ui_libraries_full = final_df[["Response ID", "UI_Libraries_Used"]].copy()
-        ui_libraries_full.to_excel(writer, sheet_name="UI_Libraries", index=False)
+        # Set row height for statistics row to accommodate multiple lines
+        worksheet.row_dimensions[stats_row_index].height = 60
 
-        challenges_full = final_df[["Response ID", "Biggest_Challenges"]].copy()
-        challenges_full.to_excel(writer, sheet_name="Challenges", index=False)
+        # Format the worksheet
+        # Auto-adjust column widths
+        for column in worksheet.columns:
+            max_length = 0
+            column_letter = column[0].column_letter
 
-        ratings_full = final_df[["Response ID", "Importance_Ratings"]].copy()
-        ratings_full.to_excel(writer, sheet_name="Importance_Ratings", index=False)
+            for cell in column:
+                try:
+                    # Handle multi-line content
+                    cell_value = str(cell.value) if cell.value else ""
+                    # For statistics row, limit display length
+                    if cell.row == stats_row_index and len(cell_value) > 100:
+                        cell_value = cell_value[:100] + "..."
 
-        # Format the worksheets
-        for sheet_name in writer.sheets:
-            worksheet = writer.sheets[sheet_name]
+                    lines = (
+                        cell_value.split("\n")
+                        if "\n" in cell_value
+                        else cell_value.split(";")
+                    )
+                    max_line_length = max([len(line) for line in lines]) if lines else 0
 
-            # Auto-adjust column widths
-            for column in worksheet.columns:
-                max_length = 0
-                column_letter = column[0].column_letter
+                    if max_line_length > max_length:
+                        max_length = max_line_length
+                except:
+                    pass
 
-                for cell in column:
-                    try:
-                        # Handle multi-line content
-                        cell_value = str(cell.value) if cell.value else ""
-                        lines = cell_value.split("\n")
-                        max_line_length = (
-                            max([len(line) for line in lines]) if lines else 0
-                        )
+            # Set reasonable column width limits
+            adjusted_width = min(max(max_length + 2, 15), 60)
+            worksheet.column_dimensions[column_letter].width = adjusted_width
 
-                        if max_line_length > max_length:
-                            max_length = max_line_length
-                    except:
-                        pass
+        # Format header row
+        for cell in worksheet[1]:
+            cell.font = Font(bold=True)
+            cell.fill = PatternFill(
+                start_color="D9E2F3", end_color="D9E2F3", fill_type="solid"
+            )
+            cell.alignment = Alignment(wrap_text=True, vertical="top")
 
-                adjusted_width = min(max_length + 2, 80)
-                worksheet.column_dimensions[column_letter].width = adjusted_width
+        # Format data rows
+        for row in worksheet.iter_rows(min_row=2, max_row=len(final_df) + 1):
+            for cell in row:
+                cell.alignment = Alignment(wrap_text=True, vertical="top")
 
-            # Enable text wrapping for all cells
-            for row in worksheet.iter_rows():
-                for cell in row:
-                    cell.alignment = Alignment(wrap_text=True, vertical="top")
+        # Add borders
+        thin_border = Border(
+            left=Side(style="thin"),
+            right=Side(style="thin"),
+            top=Side(style="thin"),
+            bottom=Side(style="thin"),
+        )
 
-    print(f"✅ Enhanced survey data compression complete!")
-    print(f"📊 Original columns: {len(df.columns)}")
-    print(f"📊 Compressed columns: {len(final_df.columns)}")
+        for row in worksheet.iter_rows(min_row=1, max_row=len(final_df) + 1):
+            for cell in row:
+                cell.border = thin_border
+
+    print(f"✅ Survey data processed for appendix!")
     print(f"📁 Output saved to: {excel_output_path}")
-    print(f"📋 Sheets created:")
-    print(f"   - Compressed_Data: Main data with line breaks")
-    print(f"   - Long_Format: Analysis-friendly format")
-    print(f"   - Summary: Key statistics")
-    print(f"   - UI_Libraries: Library usage details")
-    print(f"   - Challenges: Challenge details")
-    print(f"   - Importance_Ratings: Rating details")
 
-    return final_df, long_format_df, summary_df
+    return final_df
 
 
 def main():
-    """Main function to run the enhanced compression"""
+    """Main function to process survey data for appendix"""
 
     csv_file = "results-survey.csv"
-    excel_file = "survey_results_enhanced.xlsx"
+    excel_file = "survey_results_appendix.xlsx"
 
     if not Path(csv_file).exists():
         print(f"❌ Error: CSV file '{csv_file}' not found!")
+        print("Available files:")
+        for file in Path(".").glob("*.csv"):
+            print(f"  - {file.name}")
         return
 
     try:
-        final_df, long_df, summary_df = compress_survey_data(csv_file, excel_file)
-
-        print(f"\n📈 Summary Statistics:")
-        print(f"Total responses: {len(final_df)}")
-
-        # Show top insights
-        print(f"\n🔍 Key Insights:")
-        if "Role" in final_df.columns:
-            top_role = final_df["Role"].value_counts().index[0]
-            print(f"   Most common role: {top_role}")
-
-        if "Framework" in final_df.columns:
-            top_framework = final_df["Framework"].value_counts().index[0]
-            print(f"   Most used framework: {top_framework}")
-
-        print(f"\n✨ Enhanced compression complete!")
-        print(f"💡 Tip: Check the different sheets for various data views")
+        result_df = process_survey_for_appendix(csv_file, excel_file)
+        print(f"✨ Appendix-ready table created successfully!")
 
     except Exception as e:
         print(f"❌ Error: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
