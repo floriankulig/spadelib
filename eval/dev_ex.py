@@ -61,7 +61,7 @@ def setup_matplotlib():
 def create_test_data():
     """Generate test data for development and testing"""
 
-    # Lines of Code data (randomized decimals added)
+    # Lines of Code data
     loc_data = {
         "Task": ["Button", "Input", "Dropdown"] * 3,
         "Library": ["Angular Material"] * 3 + ["Spade"] * 6,
@@ -80,7 +80,7 @@ def create_test_data():
             # Spade - Code Additions (new features/wrappers)
             12.43,
             26.34,
-            6.7,
+            14.7,
         ],
     }
 
