@@ -21,8 +21,8 @@ from pathlib import Path
 COLORS = {
     "material_primary": "#603DB1",  # Deep purple
     "material_secondary": "#8B5CF6",  # Medium purple
-    "spade_primary": "#0A758F",  # Teal
-    "spade_secondary": "#06B6D4",  # Light teal
+    "spade_primary": "#06667E",  # Teal
+    "spade_secondary": "#078CA3",  # Light teal
     "background": "#FAFAFA",  # Light gray background
     "text": "#1F2937",  # Dark gray text
     "grid": "#E5E7EB",  # Light grid
@@ -127,6 +127,7 @@ def plot_lines_of_code(loc_df, output_dir):
         width,
         label="Angular Material - Wrapper & Overrides",
         color=COLORS["material_primary"],
+        edgecolor="black",
         alpha=0.8,
     )
 
@@ -136,6 +137,7 @@ def plot_lines_of_code(loc_df, output_dir):
         spade_changes,
         width,
         label="Spade - Code Changes",
+        edgecolor="black",
         color=COLORS["spade_primary"],
         alpha=0.8,
     )
@@ -145,6 +147,7 @@ def plot_lines_of_code(loc_df, output_dir):
         width,
         bottom=spade_changes,
         label="Spade - Code Additions",
+        edgecolor="black",
         color=COLORS["spade_secondary"],
         alpha=0.8,
     )
@@ -247,6 +250,7 @@ def plot_time_to_implement(time_df, output_dir):
         yerr=material_std,
         capsize=5,
         label="Angular Material",
+        edgecolor="black",
         color=COLORS["material_primary"],
         alpha=0.8,
         error_kw={"linewidth": 2, "ecolor": COLORS["text"]},
@@ -259,6 +263,7 @@ def plot_time_to_implement(time_df, output_dir):
         yerr=spade_std,
         capsize=5,
         label="Spade",
+        edgecolor="black",
         color=COLORS["spade_primary"],
         alpha=0.8,
         error_kw={"linewidth": 2, "ecolor": COLORS["text"]},
