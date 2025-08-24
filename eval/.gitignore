@@ -2,3 +2,5 @@
 /.venv
 output/*.pdf
 output/*.csv
+*.csv
+*.xlsx
