@@ -25,16 +25,15 @@ export interface ViolationSummary {
 
 export class AccessibilityTestHelper {
   /**
-   * Run axe-core accessibility test on a component with detailed violation logging
+   * Run axe-core accessibility test on a component with optional verbose logging
    */
   static async runAxeTest(
     fixture: ComponentFixture<any>,
     componentName: string,
-    logDetails = true
+    verbose = false
   ): Promise<A11yTestResult> {
     const element = fixture.nativeElement;
 
-    // Configure axe to test for WCAG 2.1 AA
     const results: AxeResults = await axe.run(element, {
       runOnly: {
         type: 'tag',
@@ -42,28 +41,26 @@ export class AccessibilityTestHelper {
       },
     });
 
-    // Calculate WCAG compliance score
     const totalChecks = results.passes.length + results.violations.length;
     const wcagScore =
       totalChecks > 0
         ? Math.round((results.passes.length / totalChecks) * 100)
         : 100;
 
-    // Map violations to detailed summary
     const violations: ViolationSummary[] = results.violations.map((v) => ({
       id: v.id,
       impact: v.impact as any,
       description: v.description,
       helpUrl: v.helpUrl,
       nodeCount: v.nodes.length,
-      nodes: v.nodes.map((node) => ({
-        html: node.html,
-        target: node.target as string[],
-        failureSummary: node.failureSummary || 'No failure summary available',
+      nodes: v.nodes.map((n) => ({
+        html: n.html,
+        target: n.target as string[],
+        failureSummary: n.failureSummary || '',
       })),
     }));
 
-    const testResult = {
+    const result: A11yTestResult = {
       componentName,
       wcagScore,
       violationCount: results.violations.length,
@@ -72,64 +69,44 @@ export class AccessibilityTestHelper {
       timestamp: new Date(),
     };
 
-    // Log detailed results if requested
-    if (logDetails) {
-      this.logDetailedResults(testResult);
+    // Only log if verbose or if there are violations
+    if (verbose || result.violations.length > 0) {
+      this.logTestResult(result);
     }
 
-    return testResult;
+    return result;
   }
 
   /**
-   * Log detailed accessibility test results to console
+   * Generate consolidated log output instead of multiple console.log calls
    */
-  static logDetailedResults(result: A11yTestResult): void {
-    console.log('\n' + '='.repeat(60));
-    console.log(`🔍 ACCESSIBILITY TEST: ${result.componentName}`);
-    console.log('='.repeat(60));
-    console.log(`📊 WCAG Score: ${result.wcagScore}%`);
-    console.log(`✅ Passed checks: ${result.passCount}`);
-    console.log(`❌ Violations: ${result.violationCount}`);
-    console.log(`⏰ Tested at: ${result.timestamp.toLocaleString()}`);
+  private static logTestResult(result: A11yTestResult): void {
+    const logLines = [
+      `🔍 ACCESSIBILITY TEST: ${result.componentName}`,
+      `📊 WCAG Score: ${result.wcagScore}%`,
+      `✅ Passed checks: ${result.passCount}`,
+      `❌ Violations: ${result.violationCount}`,
+    ];
 
     if (result.violations.length > 0) {
-      console.log('\n🚨 VIOLATIONS FOUND:');
-      console.log('-'.repeat(40));
-
+      logLines.push('', '🚨 VIOLATIONS FOUND:');
       result.violations.forEach((violation, index) => {
-        console.log(
-          `\n${index + 1}. ${violation.id} (${violation.impact.toUpperCase()})`
+        logLines.push(
+          '',
+          `${index + 1}. ${violation.id} (${violation.impact?.toUpperCase()})`,
+          `   Description: ${violation.description}`,
+          `   Affected nodes: ${violation.nodeCount}`,
+          `   Help: ${violation.helpUrl}`
         );
-        console.log(`   Description: ${violation.description}`);
-        console.log(`   Affected nodes: ${violation.nodeCount}`);
-        console.log(`   Help: ${violation.helpUrl}`);
-
-        // Show first few affected elements
-        violation.nodes.slice(0, 3).forEach((node, nodeIndex) => {
-          console.log(`   
-   📍 Element ${nodeIndex + 1}:`);
-          console.log(`      Target: ${node.target.join(' > ')}`);
-          console.log(
-            `      HTML: ${node.html.substring(0, 100)}${
-              node.html.length > 100 ? '...' : ''
-            }`
-          );
-          console.log(`      Issue: ${node.failureSummary}`);
-        });
-
-        if (violation.nodes.length > 3) {
-          console.log(`   ... and ${violation.nodes.length - 3} more elements`);
-        }
       });
-    } else {
-      console.log('\n🎉 No accessibility violations found!');
     }
 
-    console.log('\n' + '='.repeat(60) + '\n');
+    // Single console.log call with joined lines
+    console.log(logLines.join('\n'));
   }
 
   /**
-   * Generate summary statistics for thesis
+   * Generate summary with single log output
    */
   static generateSummaryStats(results: A11yTestResult[]): any {
     const avgScore =
@@ -139,7 +116,6 @@ export class AccessibilityTestHelper {
       0
     );
 
-    // Group violations by impact
     const impactCounts = {
       critical: 0,
       serious: 0,
@@ -147,41 +123,49 @@ export class AccessibilityTestHelper {
       minor: 0,
     };
 
-    // Group violations by type
-    const violationTypes: { [key: string]: number } = {};
-
     results.forEach((r) => {
       r.violations.forEach((v) => {
         if (v.impact in impactCounts) {
           impactCounts[v.impact]++;
         }
-        violationTypes[v.id] = (violationTypes[v.id] || 0) + 1;
       });
     });
 
-    return {
+    const summary = {
       averageWcagScore: Math.round(avgScore),
       totalViolations,
       violationsByImpact: impactCounts,
-      violationsByType: violationTypes,
       componentScores: results.map((r) => ({
         name: r.componentName,
         score: r.wcagScore,
         violations: r.violationCount,
-        topViolations: r.violations
-          .sort((a, b) => {
-            const impactOrder = {
-              critical: 4,
-              serious: 3,
-              moderate: 2,
-              minor: 1,
-            };
-            return impactOrder[b.impact] - impactOrder[a.impact];
-          })
-          .slice(0, 3)
-          .map((v) => `${v.id} (${v.impact})`),
       })),
     };
+
+    // Single consolidated log for summary
+    const summaryLines = [
+      '====================================',
+      'SPADE ACCESSIBILITY TEST RESULTS',
+      '====================================',
+      `Average WCAG Score: ${summary.averageWcagScore}%`,
+      `Total Violations: ${summary.totalViolations}`,
+      '',
+      'Violations by Impact:',
+      `  Critical: ${summary.violationsByImpact.critical}`,
+      `  Serious: ${summary.violationsByImpact.serious}`,
+      `  Moderate: ${summary.violationsByImpact.moderate}`,
+      `  Minor: ${summary.violationsByImpact.minor}`,
+      '',
+      'Component Scores:',
+      ...summary.componentScores.map(
+        (cs: any) => `  ${cs.name}: ${cs.score}% (${cs.violations} violations)`
+      ),
+      '====================================',
+    ];
+
+    console.log(summaryLines.join('\n'));
+
+    return summary;
   }
 
   /**
@@ -199,6 +183,8 @@ export class AccessibilityTestHelper {
       result.violations.forEach((v) => {
         console.log(`   - Fix ${v.id}: ${v.description.substring(0, 80)}...`);
       });
+    } else {
+      console.log(`\n✅ ${componentName} passed quick accessibility test!`);
     }
   }
 }

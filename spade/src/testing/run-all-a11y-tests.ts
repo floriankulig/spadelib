@@ -44,26 +44,10 @@ export async function runCompleteAccessibilitySuite(): Promise<void> {
   chipFixture.detectChanges();
   results.push(await AccessibilityTestHelper.runAxeTest(chipFixture, 'Chip'));
 
-  // Generate summary statistics
+  // Generate summary statistics (now with clean single log output)
   const summary = AccessibilityTestHelper.generateSummaryStats(results);
 
-  console.log('====================================');
-  console.log('SPADE ACCESSIBILITY TEST RESULTS');
-  console.log('====================================');
-  console.log(`Average WCAG Score: ${summary.averageWcagScore}%`);
-  console.log(`Total Violations: ${summary.totalViolations}`);
-  console.log('\nViolations by Impact:');
-  console.log(`  Critical: ${summary.violationsByImpact.critical}`);
-  console.log(`  Serious: ${summary.violationsByImpact.serious}`);
-  console.log(`  Moderate: ${summary.violationsByImpact.moderate}`);
-  console.log(`  Minor: ${summary.violationsByImpact.minor}`);
-  console.log('\nComponent Scores:');
-  summary.componentScores.forEach((cs: any) => {
-    console.log(`  ${cs.name}: ${cs.score}% (${cs.violations} violations)`);
-  });
-  console.log('====================================');
-
-  // Export for thesis
+  // Export for thesis with single JSON log
   const thesisData = {
     testDate: new Date().toISOString(),
     framework: 'Angular 20',
@@ -73,7 +57,6 @@ export async function runCompleteAccessibilitySuite(): Promise<void> {
     results: summary,
   };
 
-  // Save to file for thesis documentation
-  console.log('\nThesis Data (JSON):');
+  console.log('\n📋 Thesis Data:');
   console.log(JSON.stringify(thesisData, null, 2));
 }
