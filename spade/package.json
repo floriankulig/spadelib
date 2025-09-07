@@ -10,9 +10,11 @@
     "test": "ng test",
     "test:a11y": "ng test --include='**/*.a11y.spec.ts' --watch=false",
     "test:a11y:watch": "ng test --include='**/*.a11y.spec.ts'",
-    "test:a11y:debug": "ng test --include='**/debug-a11y.spec.ts' --watch=false",
-    "test:a11y:debug:watch": "ng test --include='**/debug-a11y.spec.ts'",
-    "test:a11y:report": "ng test --include='**/*.a11y.spec.ts' --code-coverage --watch=false"
+    "test:a11y:thesis": "ng test --include='**/generate-thesis-report.spec.ts' --watch=false",
+    "test:a11y:thesis:detailed": "ng test --include='**/generate-thesis-report.spec.ts' --watch=false --verbose",
+    "test:a11y:thesis:watch": "ng test --include='**/generate-thesis-report.spec.ts'",
+    "thesis:download-files": "ng test --include='**/download-thesis-files.spec.ts' --watch=false",
+    "thesis:export-data": "npm run thesis:download-files"
   },
   "prettier": {
     "overrides": [
