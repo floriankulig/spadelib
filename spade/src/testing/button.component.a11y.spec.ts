@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SpadeButtonComponent } from '../lib/components/button/button.component';
-import { AccessibilityTestHelper } from './accessibility-test.helper';
+import {
+  AccessibilityTestHelper,
+  MIN_WCAG_SCORE,
+} from './accessibility-test.helper';
 
 describe('SpadeButton Accessibility', () => {
   let component: SpadeButtonComponent;
@@ -31,7 +34,7 @@ describe('SpadeButton Accessibility', () => {
       'Button-Default'
     );
 
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
     expect(result.violationCount).toBe(0);
 
     if (result.violations.length > 0) {
@@ -57,7 +60,7 @@ describe('SpadeButton Accessibility', () => {
         `Button-${variant}`
       );
 
-      expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+      expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
     }
   });
 
@@ -70,7 +73,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Disabled'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should be accessible in loading state', async () => {
@@ -82,7 +85,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Loading'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should handle keyboard navigation correctly', async () => {
@@ -119,7 +122,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Keyboard'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
 
     subscription.unsubscribe();
   });
@@ -148,7 +151,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Focus'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should announce loading state to screen readers', async () => {
@@ -171,7 +174,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Loading-ScreenReader'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should properly handle aria-label attributes', async () => {
@@ -187,7 +190,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-AriaLabel'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should handle aria-pressed for toggle buttons', async () => {
@@ -206,7 +209,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Toggle'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should handle aria-expanded for dropdown buttons', async () => {
@@ -225,7 +228,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-Dropdown'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should meet minimum touch target size requirements', async () => {
@@ -278,7 +281,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-TouchTarget'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should prevent interaction when disabled or loading', async () => {
@@ -320,7 +323,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-DisabledInteraction'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
 
     subscription.unsubscribe();
   });
@@ -343,7 +346,7 @@ describe('SpadeButton Accessibility', () => {
       fixture,
       'Button-SemanticRole'
     );
-    expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+    expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
   });
 
   it('should provide proper context for screen readers in different states', async () => {
@@ -383,7 +386,7 @@ describe('SpadeButton Accessibility', () => {
           state.disabled ? 'disabled' : 'enabled'
         }-${state.loading ? 'loading' : 'idle'}`
       );
-      expect(result.wcagScore).toBeGreaterThanOrEqual(95);
+      expect(result.wcagScore).toBeGreaterThanOrEqual(MIN_WCAG_SCORE);
     }
   });
 });

@@ -1,6 +1,8 @@
 import { ComponentFixture } from '@angular/core/testing';
 import axe, { AxeResults } from 'axe-core';
 
+export const MIN_WCAG_SCORE = 95;
+
 export interface A11yTestResult {
   componentName: string;
   wcagScore: number;
