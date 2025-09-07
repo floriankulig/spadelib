@@ -75,4 +75,11 @@ export class SpadeButtonComponent implements OnInit {
 
     return classes.join(' ');
   }
+
+  get buttonAriaLabel(): string {
+    if (this.loading) {
+      return this.ariaLabel || 'Loading...';
+    }
+    return this.ariaLabel || '';
+  }
 }
