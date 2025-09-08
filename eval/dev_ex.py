@@ -58,42 +58,11 @@ def setup_matplotlib():
     )
 
 
-def create_test_data():
-    """Generate test data for development and testing"""
-
-    # Lines of Code data
-    loc_data = {
-        "Task": ["Button", "Input", "Dropdown"] * 3,
-        "Library": ["Angular Material"] * 3 + ["Spade"] * 6,
-        "Type": ["Wrapper & Overrides"] * 3
-        + ["Code Changes"] * 3
-        + ["Code Additions"] * 3,
-        "Lines": [
-            # Angular Material - Only Wrapper & Overrides (no access to source code)
-            25.82,
-            41.1,
-            80.77,
-            # Spade - Code Changes (direct modifications to copied code)
-            4.19,
-            2.23,
-            39.21,
-            # Spade - Code Additions (new features/wrappers)
-            12.43,
-            26.34,
-            14.7,
-        ],
-    }
-
-    # Time-to-implement data (randomized decimals + bigger stds)
-    time_data = {
-        "Task": ["Button", "Input", "Dropdown"],
-        "Angular Material": [15.63, 26.78, 55.55],
-        "Spade": [12.6, 18.67, 30.61],
-        "Angular Material Std": [2.05, 3.57, 8.34],
-        "Spade Std": [1.64, 2.61, 4.59],
-    }
-
-    return pd.DataFrame(loc_data), pd.DataFrame(time_data)
+def load_data_from_csv():
+    """Load evaluation data from CSV files"""
+    loc_df = pd.read_csv(Path(__file__).parent / "loc_data.csv")
+    time_df = pd.read_csv(Path(__file__).parent / "time_data.csv")
+    return loc_df, time_df
 
 
 def plot_lines_of_code(loc_df, output_dir):
@@ -391,7 +360,7 @@ def main():
     print("=" * 60)
 
     # Load or create test data
-    loc_df, time_df = create_test_data()
+    loc_df, time_df = load_data_from_csv()
 
     print("📊 Datenübersicht:")
     print(f"   Code-Aufwand Einträge: {len(loc_df)}")

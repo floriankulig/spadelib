@@ -4,6 +4,7 @@ import seaborn as sns
 import pandas as pd
 from scipy.stats import pearsonr, spearmanr
 from scipy import stats
+from pathlib import Path
 
 # Set scientific plotting style
 plt.style.use("seaborn-v0_8-whitegrid")
@@ -15,101 +16,8 @@ sns.set_palette("Set2")
 def load_completion_data():
     """
     Load completion rate data from experiment results.
-    Replace this with your actual data loading logic.
     """
-    # Simulated realistic data based on your experiment context
-    np.random.seed(42)  # For reproducible results
-
-    participants = []
-    tasks = ["Button", "Input", "Dropdown"]
-    task_complexity = {"Button": 1, "Input": 2, "Dropdown": 3}  # Complexity scaling
-    experience_groups = ["Studenten", "Junior", "Mid-Level", "Senior"]
-    experience_years = [0, 1.5, 4, 7]  # Average years per group
-
-    # Generate realistic completion rates
-    participant_id = 1
-    for exp_idx, (exp_group, years) in enumerate(
-        zip(experience_groups, experience_years)
-    ):
-        # Number of participants per group (adjust to your actual data)
-        n_participants = [2, 5, 3, 2][exp_idx]  # From your participants.py
-
-        for p in range(n_participants):
-            for task in tasks:
-                complexity = task_complexity[task]
-
-                # Angular Material modeling:
-                # Base completion rate that improves with experience
-                material_base = 70 + years * 3.5  # Strong experience effect
-
-                # Task complexity penalty (harder tasks = lower completion)
-                complexity_penalty_material = (complexity - 1) * 8
-
-                # Experience reduces complexity penalty (experienced devs handle complexity better)
-                experience_bonus = min(years * 2, 8)  # Cap at 10% bonus
-
-                material_completion = (
-                    material_base - complexity_penalty_material + experience_bonus
-                )
-
-                # Add realistic variance
-                material_completion = np.clip(
-                    np.random.normal(material_completion, 8), 45, 100
-                )
-
-                # Spade modeling:
-                # Generally better baseline, especially for complex tasks
-                spade_base = 80 + years * 2  # Moderate experience effect
-
-                # Spade advantage increases with task complexity (this is its strength)
-                spade_complexity_bonus = (
-                    complexity - 1
-                ) * 4  # Less penalty, more bonus
-
-                # For experienced developers and simple tasks, advantage diminishes
-                if years >= 4 and complexity == 1:  # Senior/Mid-Level + Button task
-                    experience_convergence = years * 2  # Convergence effect
-                    spade_advantage_reduction = min(experience_convergence, 12)
-                else:
-                    spade_advantage_reduction = 0
-
-                spade_completion = (
-                    spade_base - spade_complexity_bonus - spade_advantage_reduction
-                )
-
-                # Add realistic variance (Spade more consistent)
-                spade_completion = np.clip(
-                    np.random.normal(spade_completion, 6), 55, 100
-                )
-
-                # Ensure Spade is generally better (with some realistic exceptions)
-                if np.random.random() > 0.9:  # 12% chance of Material being better
-                    pass  # Keep original values
-                else:
-                    # Ensure Spade advantage, but realistic
-                    min_spade_advantage = 2 if complexity > 1 else 0
-                    if spade_completion < material_completion + min_spade_advantage:
-                        spade_completion = (
-                            material_completion
-                            + min_spade_advantage
-                            + np.random.uniform(0, 5)
-                        )
-                        spade_completion = min(spade_completion, 100)
-
-                participants.append(
-                    {
-                        "participant_id": participant_id,
-                        "experience_group": exp_group,
-                        "experience_years": years,
-                        "task": task,
-                        "task_complexity": complexity,
-                        "material_completion": material_completion,
-                        "spade_completion": spade_completion,
-                    }
-                )
-            participant_id += 1
-
-    return pd.DataFrame(participants)
+    return pd.read_csv(Path(__file__).parent / "completion_data.csv")
 
 
 def create_completion_rate_visualization(df):
